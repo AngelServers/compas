@@ -1,4 +1,4 @@
-import { compas } from "../CompasProvider";
+import compas from "../CompasProvider";
 
 interface ImportMeta {
   env?: {
