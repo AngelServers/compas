@@ -7,5 +7,6 @@ export const colors = compas.colors;
 import TableComponent from "./src/general/components/f7/Table";
 export const Table = TableComponent;
 
-import TablePageComponent from "./src/general/components/f7/TablePage";
-export const TablePage = TablePageComponent;
+// WIP: TablePageComponent
+// import TablePageComponent from "./src/general/components/f7/TablePage";
+// export const TablePage = TablePageComponent;
