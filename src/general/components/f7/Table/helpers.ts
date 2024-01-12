@@ -1,6 +1,6 @@
 import { IField, ISearchFilters } from "./types";
 
-import { colors } from "../../../../../index";
+import { compas } from "../../../../../index";
 
 export const parseData = (data: any) => {
   if (!data) return null;
@@ -77,7 +77,7 @@ export const getSortIcon = (field: IField, searchFilters: ISearchFilters) => {
 export const getSortLabelColor = (field: IField, searchFilters) => {
   if (getSortIcon(field, searchFilters) !== "")
     return {
-      color: colors.blue,
+      color: compas.colors.blue,
     };
   return {};
 };
