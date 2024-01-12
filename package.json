@@ -2,20 +2,20 @@
   "name": "compas",
   "version": "1.0.0",
   "description": "Component Library from AngelServers",
-  "main": "index.js",
+  "homepage": "https://github.com/AngelServers/compas#readme",
+  "bugs": {
+    "url": "https://github.com/AngelServers/compas/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AngelServers/compas.git"
   },
+  "license": "SEE LICENCE IN LICENCE",
+  "author": "AngelServers, Angel Zimmermann",
+  "main": "index.js",
   "scripts": {
     "build": "esbuild ./strapi/main.js --bundle --platform=node --target=node10.4 --outfile=strapi/index.js"
   },
-  "author": "AngelServers, Angel Zimmermann",
-  "license": "SEE LICENCE IN LICENCE",
-  "bugs": {
-    "url": "https://github.com/AngelServers/compas/issues"
-  },
-  "homepage": "https://github.com/AngelServers/compas#readme",
   "dependencies": {
     "framework7": "^8.3.0",
     "framework7-react": "^8.3.0",

@@ -25,6 +25,7 @@ var __publicField = (obj, key, value) => {
 var main_exports = {};
 __export(main_exports, {
   RoleManager: () => RoleManager,
+  customRouter: () => customRouter,
   parseServiceResult: () => parseServiceResult
 });
 module.exports = __toCommonJS(main_exports);
@@ -132,8 +133,24 @@ var RoleManager = class {
     });
   }
 };
+
+// src/strapi/helpers.ts
+var customRouter = (defaultRouter, extraRoutes = []) => {
+  let routes;
+  return {
+    get prefix() {
+      return defaultRouter.prefix;
+    },
+    get routes() {
+      if (!routes)
+        routes = defaultRouter.routes.concat(extraRoutes);
+      return routes;
+    }
+  };
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   RoleManager,
+  customRouter,
   parseServiceResult
 });
