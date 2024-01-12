@@ -13,6 +13,4 @@ class Compas {
   }
 }
 
-const compas = new Compas();
-
-export default { compas };
+export const compas = new Compas();

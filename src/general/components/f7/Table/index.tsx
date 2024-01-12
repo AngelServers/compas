@@ -15,7 +15,7 @@ import {
   TableRow,
 } from "./renders";
 
-const Table = ({
+export const Table = ({
   data,
   loading,
   allowOpen,
@@ -109,5 +109,3 @@ const Table = ({
     </div>
   );
 };
-
-export default { Table };
