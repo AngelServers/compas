@@ -1,0 +1,24 @@
+{
+  "name": "compas",
+  "version": "1.0.0",
+  "description": "Component Library from AngelServers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AngelServers/compas.git"
+  },
+  "author": "AngelServers, Angel Zimmermann",
+  "license": "SEE LICENCE IN LICENCE",
+  "bugs": {
+    "url": "https://github.com/AngelServers/compas/issues"
+  },
+  "homepage": "https://github.com/AngelServers/compas#readme",
+  "dependencies": {
+    "framework7": "^8.3.0",
+    "framework7-react": "^8.3.0",
+    "react": "^18.2.0"
+  }
+}
