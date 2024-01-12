@@ -1,11 +1,11 @@
 // Constants
-import compas from "./src/CompasProvider";
-export const compas = compas;
+import CompasProvider from "./src/CompasProvider";
+export const compas = CompasProvider;
 export const colors = compas.colors;
 
 // Components for f7 (Framework7)
-import Table from "./src/components/Table";
-export const Table = Table;
+import TableComponent from "./src/components/Table";
+export const Table = TableComponent;
 
-import TablePage from "./src/components/TablePage";
-export const TablePage = TablePage;
+import TablePageComponent from "./src/components/TablePage";
+export const TablePage = TablePageComponent;
