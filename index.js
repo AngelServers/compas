@@ -4,8 +4,8 @@ export const compas = CompasProvider;
 export const colors = compas.colors;
 
 // Components for f7 (Framework7)
-import TableComponent from "./src/components/Table";
+import TableComponent from "./src/general/components/f7/Table";
 export const Table = TableComponent;
 
-import TablePageComponent from "./src/components/TablePage";
+import TablePageComponent from "./src/general/components/f7/TablePage";
 export const TablePage = TablePageComponent;
