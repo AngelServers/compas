@@ -32,6 +32,9 @@ export const Table = ({
 
   const { currentPage, lastPage } = parsePagination(data);
 
+  let cols = fields.length;
+  if (renderCustomRowButtons) cols += renderCustomRowButtons.length;
+
   return (
     <div className={`card data-table ${loading && false && "skeleton-text"}`}>
       {/* Loading Bar */}
@@ -64,7 +67,6 @@ export const Table = ({
 
             {tableData.data?.map(
               (row: { id: number; attributes: Object }, rowId: number) => {
-                console.log(row);
                 return (
                   <TableRow
                     key={`table-row-${rowId}`}
@@ -79,14 +81,8 @@ export const Table = ({
                 );
               }
             )}
-            <td colSpan={fields.length}>
-              <div className="data-table-no-results">
-                <Icon
-                  md="material:sentiment_very_dissatisfied"
-                  style={{ fontSize: "100px", color: "#673ab7" }}
-                />
-                <p>No results found</p>
-              </div>
+            <td colSpan={cols}>
+              <p>No results found</p>
             </td>
           </tbody>
         </table>
