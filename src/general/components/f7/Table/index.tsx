@@ -79,6 +79,15 @@ export const Table = ({
                 );
               }
             )}
+            <td colSpan={fields.length}>
+              <div className="data-table-no-results">
+                <Icon
+                  md="material:sentiment_very_dissatisfied"
+                  style={{ fontSize: "100px", color: "#673ab7" }}
+                />
+                <p>No results found</p>
+              </div>
+            </td>
           </tbody>
         </table>
       </div>
