@@ -86,9 +86,7 @@ export const Table = ({
                 }
               )}
             {allowAdd && (
-              <tr>
-                <AddRecordRowButton allowAdd={allowAdd} />
-              </tr>
+              <AddRecordRowButton allowAdd={allowAdd} colSpan={cols} />
             )}
           </tbody>
         </table>

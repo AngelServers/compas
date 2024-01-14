@@ -427,29 +427,37 @@ export const Pagination = ({
   );
 };
 
-export const AddRecordRowButton = ({ allowAdd }: { allowAdd?: string }) => {
+export const AddRecordRowButton = ({
+  allowAdd,
+  colSpan,
+}: {
+  allowAdd?: string;
+  colSpan: number;
+}) => {
   if (!allowAdd) return <></>;
 
   return (
-    <td
-      colSpan={100}
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Button
-        onClick={() => {
-          if (allowAdd) {
-            f7.views.main.router.navigate(allowAdd, {
-              transition: "f7-parallax",
-            });
-          }
+    <tr>
+      <td
+        colSpan={colSpan}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        <Icon md="material:add" />
-      </Button>
-    </td>
+        <Button
+          onClick={() => {
+            if (allowAdd) {
+              f7.views.main.router.navigate(allowAdd, {
+                transition: "f7-parallax",
+              });
+            }
+          }}
+        >
+          <Icon md="material:add" />
+        </Button>
+      </td>
+    </tr>
   );
 };
