@@ -83,9 +83,11 @@ export const Table = ({
                 );
               }
             )}
-            <td colSpan={cols}>
-              <p>No results found</p>
-            </td>
+            <tr>
+              <td colSpan={cols}>
+                <p>No results found</p>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
