@@ -438,15 +438,9 @@ export const AddRecordRowButton = ({
 
   return (
     <tr>
-      <td
-        colSpan={colSpan}
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <td colSpan={colSpan}>
         <Button
+          fill
           onClick={() => {
             if (allowAdd) {
               f7.views.main.router.navigate(allowAdd, {
@@ -456,6 +450,7 @@ export const AddRecordRowButton = ({
           }}
         >
           <Icon md="material:add" />
+          Agregar nuevo registro
         </Button>
       </td>
     </tr>
