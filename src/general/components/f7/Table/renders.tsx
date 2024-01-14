@@ -426,3 +426,30 @@ export const Pagination = ({
     </div>
   );
 };
+
+export const AddRecordRowButton = ({ allowAdd }: { allowAdd?: string }) => {
+  if (!allowAdd) return <></>;
+
+  return (
+    <td
+      colSpan={100}
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Button
+        onClick={() => {
+          if (allowAdd) {
+            f7.views.main.router.navigate(allowAdd, {
+              transition: "f7-parallax",
+            });
+          }
+        }}
+      >
+        <Icon md="material:add" />
+      </Button>
+    </td>
+  );
+};

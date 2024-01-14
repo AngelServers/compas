@@ -7,6 +7,7 @@ import { ITable } from "./types";
 import { getColsSize, handleSort, parseData, parsePagination } from "./helpers";
 import { Button, Icon, Progressbar, f7 } from "framework7-react";
 import {
+  AddRecordRowButton,
   FilterRemover,
   Filters,
   Loader,
@@ -84,11 +85,11 @@ export const Table = ({
                   );
                 }
               )}
-            <tr>
-              <td colSpan={cols}>
-                <p>No results found</p>
-              </td>
-            </tr>
+            {allowAdd && (
+              <tr>
+                <AddRecordRowButton allowAdd={allowAdd} />
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
