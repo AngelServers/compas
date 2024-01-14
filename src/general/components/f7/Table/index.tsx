@@ -67,22 +67,23 @@ export const Table = ({
           <tbody>
             <Loader fields={fields} loading={loading} data={data} />
 
-            {tableData.data?.map(
-              (row: { id: number; attributes: Object }, rowId: number) => {
-                return (
-                  <TableRow
-                    key={`table-row-${rowId}`}
-                    row={row}
-                    rowId={rowId}
-                    fields={fields}
-                    allowOpen={allowOpen}
-                    allowEdit={allowEdit}
-                    allowDelete={allowDelete}
-                    renderCustomRowButtons={renderCustomRowButtons}
-                  />
-                );
-              }
-            )}
+            {!loading &&
+              tableData.data?.map(
+                (row: { id: number; attributes: Object }, rowId: number) => {
+                  return (
+                    <TableRow
+                      key={`table-row-${rowId}`}
+                      row={row}
+                      rowId={rowId}
+                      fields={fields}
+                      allowOpen={allowOpen}
+                      allowEdit={allowEdit}
+                      allowDelete={allowDelete}
+                      renderCustomRowButtons={renderCustomRowButtons}
+                    />
+                  );
+                }
+              )}
             <tr>
               <td colSpan={cols}>
                 <p>No results found</p>
