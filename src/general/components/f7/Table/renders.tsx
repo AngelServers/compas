@@ -440,7 +440,8 @@ export const AddRecordRowButton = ({
     <tr>
       <td colSpan={colSpan}>
         <Button
-          fill
+          outline
+          className="margin"
           onClick={() => {
             if (allowAdd) {
               f7.views.main.router.navigate(allowAdd, {

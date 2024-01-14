@@ -92,7 +92,7 @@ export const Table = ({
         </table>
       </div>
       <div className="data-table-footer">
-        {allowAdd && (
+        {/* {allowAdd && (
           <div
             style={{
               marginLeft: "50px",
@@ -108,7 +108,7 @@ export const Table = ({
               <Icon md="material:add" />
             </Button>
           </div>
-        )}
+        )} */}
         <Pagination
           currentPage={currentPage}
           lastPage={lastPage}
