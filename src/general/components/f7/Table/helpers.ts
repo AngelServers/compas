@@ -1,4 +1,4 @@
-import { IField, ISearchFilters } from "./types";
+import { ICustomButton, IField, ISearchFilters } from "./types";
 
 import { compas } from "../../../../../index";
 
@@ -97,4 +97,20 @@ export const parseFilterOperator = (field: IField): "$containsi" | "$eq" => {
   } else {
     return "$containsi";
   }
+};
+
+export const getColsSize = (
+  fields: IField[],
+  allowEdit?: string,
+  allowDelete?: ((id: number | string) => void) | null,
+  renderCustomRowButtons?: ICustomButton[]
+) => {
+  let cols = fields.length;
+
+  if (allowEdit) cols++;
+  if (allowDelete) cols++;
+
+  if (renderCustomRowButtons) cols += renderCustomRowButtons.length;
+
+  return cols;
 };

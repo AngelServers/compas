@@ -4,7 +4,7 @@ import "./styles.css";
 
 import { ITable } from "./types";
 
-import { handleSort, parseData, parsePagination } from "./helpers";
+import { getColsSize, handleSort, parseData, parsePagination } from "./helpers";
 import { Button, Icon, Progressbar, f7 } from "framework7-react";
 import {
   FilterRemover,
@@ -32,8 +32,12 @@ export const Table = ({
 
   const { currentPage, lastPage } = parsePagination(data);
 
-  let cols = fields.length;
-  if (renderCustomRowButtons) cols += renderCustomRowButtons.length;
+  const cols = getColsSize(
+    fields,
+    allowEdit,
+    allowDelete,
+    renderCustomRowButtons
+  );
 
   return (
     <div className={`card data-table ${loading && false && "skeleton-text"}`}>
@@ -41,9 +45,7 @@ export const Table = ({
       {loading ? (
         <Progressbar infinite />
       ) : (
-        <div
-          style={{ height: "4px", width: "100%", background: "#673ab7" }}
-        ></div>
+        <div style={{ height: "4px", width: "100%", background: "#673ab7" }} />
       )}
       <div style={{ overflowX: "auto" }}>
         <table>
