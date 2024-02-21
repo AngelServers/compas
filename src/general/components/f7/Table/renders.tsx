@@ -55,7 +55,12 @@ export const TableCellValue = ({
       return <td key={cellKey}></td>;
     }
   } else {
-    return <td key={cellKey}>{value}</td>;
+    if (typeof value == "object" || typeof value == "function") {
+      console.error(`Table Generator: val is ${typeof value}`, value);
+      return <td key={cellKey}></td>;
+    } else {
+      return <td key={cellKey}>{value}</td>;
+    }
   }
 };
 
