@@ -38,11 +38,11 @@ export interface IField {
     | "time";
   key: string;
   name: string;
-  placeholder: string;
-  width: number;
-  onChange;
-  parser: (cell: string, row: object) => string;
-  values:
+  placeholder?: string;
+  width: number | string;
+  onChange?: (applyFilter: IApplyFilter, value: any) => void;
+  parser?: (cell: string, row: object) => string;
+  values?:
     | Array<{
         name: string;
         key: string;

@@ -41,13 +41,14 @@ export const Table = ({
   );
 
   return (
-    <div className={`card data-table ${loading && false && "skeleton-text"}`}>
+    <div
+      className={`card data-table compas-table ${
+        loading && false && "skeleton-text"
+      }`}
+    >
       {/* Loading Bar */}
-      {loading ? (
-        <Progressbar infinite />
-      ) : (
-        <div style={{ height: "4px", width: "100%", background: "#673ab7" }} />
-      )}
+      <Progressbar infinite={loading} color="gray" />
+
       <div style={{ overflowX: "auto" }}>
         <table>
           {fields && (

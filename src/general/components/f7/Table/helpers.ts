@@ -1,4 +1,4 @@
-import { ICustomButton, IField, ISearchFilters } from "./types";
+import { IApplyFilter, ICustomButton, IField, ISearchFilters } from "./types";
 
 import { compas } from "../../../../../index";
 
@@ -7,7 +7,7 @@ export const parseData = (data: any) => {
 
   if (data?.attributes) {
     return data.attributes;
-  } else if (data?.data?.attribtes) {
+  } else if (data?.data?.attributes) {
     return data.data.attributes;
   } else {
     return data;
@@ -22,7 +22,7 @@ export const parseRawData = (data: any) => {
       ...data.attributes,
       id: data.id,
     };
-  } else if (data?.data?.attribtes) {
+  } else if (data?.data?.attributes) {
     return {
       ...data.data.attributes,
       id: data.data.id,
@@ -30,6 +30,40 @@ export const parseRawData = (data: any) => {
   } else {
     return data;
   }
+};
+
+export const parseSubKeys = (subKeys: string[], rawValue: any) => {
+  const parseSubKeyLevel = (
+    subKeys: string[],
+    rawValue: any,
+    level: number
+  ): string => {
+    if (typeof rawValue != "object") return rawValue;
+
+    console.log(subKeys[level], rawValue, level);
+    if (
+      rawValue[subKeys[level]] !== null &&
+      rawValue[subKeys[level]] !== undefined
+    ) {
+      return parseSubKeyLevel(subKeys, rawValue[subKeys[level]], level + 1);
+    } else if (rawValue.data) {
+      return parseSubKeyLevel(subKeys, rawValue.data, level);
+    } else if (rawValue.attributes) {
+      return parseSubKeyLevel(subKeys, rawValue.attributes, level);
+    } else if (Array.isArray(rawValue)) {
+      console.log("arr", subKeys[level]);
+      return parseSubKeyLevel(
+        subKeys,
+        rawValue[parseInt(subKeys[level])],
+        level + 1
+      );
+    } else {
+      console.log("RETURN RAW", rawValue);
+      return rawValue;
+    }
+  };
+
+  return parseSubKeyLevel(subKeys, rawValue, 0);
 };
 
 export const parsePagination = (
@@ -44,15 +78,18 @@ export const parsePagination = (
 
   if (data?.meta) {
     return {
-      currentPage: data.meta.current_page,
-      lastPage: data.meta.last_page,
+      currentPage: data?.meta?.current_page || data?.meta?.pagination?.page,
+      lastPage: data?.meta?.last_page || data?.meta?.pagination?.pageCount,
     };
   } else if (data?.data?.meta) {
     return {
-      currentPage: data.data.meta.current_page,
-      lastPage: data.data.meta.last_page,
+      currentPage:
+        data?.data?.meta?.current_page || data?.data?.meta?.pagination?.page,
+      lastPage:
+        data?.data?.meta?.last_page || data?.data?.meta?.pagination?.pageCount,
     };
   } else {
+    console.warn("Table Generator: Pagination not found in data.", data);
     return dummy;
   }
 };
@@ -74,7 +111,10 @@ export const getSortIcon = (field: IField, searchFilters: ISearchFilters) => {
   else return trAsc;
 };
 
-export const getSortLabelColor = (field: IField, searchFilters) => {
+export const getSortLabelColor = (
+  field: IField,
+  searchFilters: ISearchFilters
+) => {
   if (getSortIcon(field, searchFilters) !== "")
     return {
       color: compas.colors.blue,
@@ -82,7 +122,11 @@ export const getSortLabelColor = (field: IField, searchFilters) => {
   return {};
 };
 
-export const handleSort = (key, searchFilters, applyFilter) => {
+export const handleSort = (
+  key: string,
+  searchFilters: ISearchFilters,
+  applyFilter: IApplyFilter
+) => {
   var sortVal = `${key}:desc`;
   if (searchFilters.sort === sortVal) sortVal = `${key}:asc`;
 

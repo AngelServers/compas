@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { IApplyFilter, ICustomButton, IField, ISearchFilters } from "./types";
 import { JoinUrl } from "../../../url";
@@ -8,9 +8,10 @@ import {
   handleSort,
   parseFilterOperator,
   parseRawData,
+  parseSubKeys,
 } from "./helpers";
 import { Rut } from "../../../rut";
-import { Button, Icon, f7 } from "framework7-react";
+import { Button, Icon, SkeletonBlock, f7 } from "framework7-react";
 
 export const TableCellValue = ({
   value,
@@ -24,12 +25,18 @@ export const TableCellValue = ({
   const dummyImg = (
     <div
       style={{
-        width: field?.width | 40,
-        height: field?.width | 40,
+        width: field?.width,
+        height: field?.width,
         backgroundColor: "#ccc",
       }}
     />
   );
+
+  const styles = {
+    overflow: "hidden",
+    minWidth: field.width || "100px",
+    maxWidth: field.width || "100px",
+  };
 
   if (field.type === "image") {
     if (value?.data?.[0]) {
@@ -42,6 +49,7 @@ export const TableCellValue = ({
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            ...styles,
           }}
         >
           {url ? (
@@ -52,14 +60,20 @@ export const TableCellValue = ({
         </td>
       );
     } else {
-      return <td key={cellKey}></td>;
+      return <td key={cellKey} style={styles}></td>;
     }
   } else {
+    if (!value) value = "";
+
     if (typeof value == "object" || typeof value == "function") {
-      console.error(`Table Generator: val is ${typeof value}`, value);
-      return <td key={cellKey}></td>;
+      console.error(`Table Generator: value is ${typeof value}`, value);
+      return <td key={cellKey} style={styles}></td>;
     } else {
-      return <td key={cellKey}>{value}</td>;
+      return (
+        <td key={cellKey} style={styles}>
+          {value}
+        </td>
+      );
     }
   }
 };
@@ -72,52 +86,55 @@ export const Filters = ({
   fields: IField[];
   applyFilter: IApplyFilter;
   searchFilters: ISearchFilters;
-}) => {
-  return fields.map((field) => {
-    const filterOperator = parseFilterOperator(field);
+}) => (
+  <>
+    {...fields.map((field) => {
+      const filterOperator = parseFilterOperator(field);
 
-    if (field.type === "id") {
-      field.type = "number"; // Set number input field for id field
-    }
+      if (field.type === "id") {
+        field.type = "number"; // Set number input field for id field
+      }
 
-    if (
-      field.type === "text" ||
-      field.type === "number" ||
-      field.type === "date" ||
-      field.type === "time" ||
-      field.type === "tax_id"
-    ) {
-      return (
-        <FilterFieldText
-          key={field.name}
-          field={field}
-          applyFilter={applyFilter}
-          searchFilters={searchFilters}
-          operator={filterOperator}
-        />
-      );
-    } else if (field.type === "select") {
-      return (
-        <FilterFieldSelect
-          key={field.name}
-          field={field}
-          applyFilter={applyFilter}
-          searchFilters={searchFilters}
-        />
-      );
-    } else {
-      return (
-        <th
-          style={{ width: field.width }}
-          key={`custom-table-filter-${field.key}`}
-          className="input-cell"
-        >
-          <span className="table-head-label">{field.name}</span>
-        </th>
-      );
-    }
-  });
-};
+      if (
+        field.type === "text" ||
+        field.type === "number" ||
+        field.type === "date" ||
+        field.type === "time" ||
+        field.type === "tax_id"
+      ) {
+        return (
+          <FilterFieldText
+            key={field.name}
+            field={field}
+            applyFilter={applyFilter}
+            searchFilters={searchFilters}
+            operator={filterOperator}
+          />
+        );
+      } else if (field.type === "select") {
+        return (
+          <FilterFieldSelect
+            key={field.name}
+            field={field}
+            applyFilter={applyFilter}
+            searchFilters={searchFilters}
+          />
+        );
+      } else {
+        return (
+          <th
+            style={{ width: field.width }}
+            key={`custom-table-filter-${field.key}`}
+            className="input-cell"
+          >
+            <span className="table-head-label">{field.name}</span>
+          </th>
+        );
+      }
+    })}
+    {/* <th style={{ width: "100px" }}></th> */}
+  </>
+);
 
 export const FilterRemover = ({
   applyFilter,
@@ -126,19 +143,26 @@ export const FilterRemover = ({
   applyFilter: IApplyFilter;
   searchFilters: ISearchFilters;
 }) => {
+  if (!searchFilters || Object.keys(searchFilters).length === 0) return <></>;
   return (
     <th
-      style={{ display: "flex", justifyContent: "end" }}
+      style={{
+        display: "flex",
+        justifyContent: "end",
+        width: "100px",
+        marginLeft: "auto",
+      }}
       className="input-cell"
     >
       <span className="table-head-label"></span>
       <span
         className="table-head-label sorteable-header"
         onClick={() => {
-          handleSort("updatedAt:desc", searchFilters, applyFilter);
+          applyFilter("*[ALL]*");
+          // handleSort("updatedAt:desc", searchFilters, applyFilter);
         }}
       >
-        {"✖"}
+        <Icon material="backspace" />
       </span>
     </th>
   );
@@ -155,11 +179,15 @@ const FilterFieldText = ({
   searchFilters: ISearchFilters;
   operator: string;
 }) => {
+  const [value, setValue] = React.useState("");
+
   var inputType = field.type;
   if (field.type === "tax_id") inputType = "text";
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
+
+    setValue(value);
 
     if (field.onChange) {
       field.onChange(applyFilter, value);
@@ -182,8 +210,16 @@ const FilterFieldText = ({
     }
   };
 
+  useEffect(() => {
+    if (!searchFilters || Object.keys(searchFilters).length === 0) setValue("");
+  }, [searchFilters]);
+
   return (
-    <th key={`custom-table-filter-${field.key}`} className="input-cell">
+    <th
+      key={`custom-table-filter-${field.key}`}
+      className="input-cell"
+      style={{ width: field.width }}
+    >
       <span
         className="table-head-label sorteable-header"
         style={getSortLabelColor(field, searchFilters)}
@@ -191,8 +227,9 @@ const FilterFieldText = ({
           handleSort(field.key, searchFilters, applyFilter);
         }}
       >{`${field.name} ${getSortIcon(field, searchFilters)}`}</span>
-      <div className="input" style={{ width: field.width }}>
+      <div className="input">
         <input
+          value={value}
           onChange={onChange}
           type={inputType}
           placeholder={field.placeholder || field.name}
@@ -211,8 +248,18 @@ const FilterFieldSelect = ({
   applyFilter: IApplyFilter;
   searchFilters: ISearchFilters;
 }) => {
+  const [value, setValue] = React.useState("");
+
+  useEffect(() => {
+    if (!searchFilters || Object.keys(searchFilters).length === 0) setValue("");
+  }, [searchFilters]);
+
   return (
-    <th key={`custom-table-filter-${field.key}`} className="input-cell">
+    <th
+      key={`custom-table-filter-${field.key}`}
+      className="input-cell"
+      style={{ width: field.width }}
+    >
       <span
         className="table-head-label sorteable-header"
         style={getSortLabelColor(field, searchFilters)}
@@ -222,9 +269,11 @@ const FilterFieldSelect = ({
       >
         {`${field.name} ${getSortIcon(field, searchFilters)}`}
       </span>
-      <div className="input input-dropdown" style={{ width: field.width }}>
+      <div className="input input-dropdown">
         <select
+          value={value}
           onChange={(e) => {
+            setValue(e.target.value);
             field.onChange
               ? field.onChange(applyFilter, e.target.value)
               : applyFilter(`[${field.key}][${field}]`, e.target.value);
@@ -259,24 +308,63 @@ export const Loader = ({
   loading: boolean;
   data: any;
 }) => {
+  // Create array of 20
   if (loading || !data) {
-    return [0, 1, 2, 3, 4, 5].map((i) => {
-      return (
-        <tr key={`skeleton-${i}`} className="skeleton-text">
-          {fields &&
-            fields.map((field, i) => {
-              var str = "";
-              const fWidth = field.width ? field.width : 100;
-              var count =
-                fWidth / (6 + Math.round(Math.random() * 10 * 6) / 10);
-              for (var s = 0; s < count; s++) {
-                str += "-";
-              }
-              return <td key={`skeleton-td-${i}`}>{str}</td>;
-            })}
-        </tr>
-      );
-    });
+    return Array(20)
+      .fill(0)
+      .map((_, i) => {
+        return (
+          <tr
+            key={`skeleton-${i}`}
+            className="skeleton-text skeleton-effect-wave"
+          >
+            <>
+              {fields &&
+                fields.map((field, i) => {
+                  return (
+                    <td
+                      key={`skeleton-td-${i}`}
+                      style={{
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                        minWidth: field.width || "100px",
+                        maxWidth: field.width || "100px",
+                      }}
+                    >
+                      <SkeletonBlock
+                        tag="div"
+                        width={`${field.width}px`}
+                        effect="wave"
+                        height="1rem"
+                        borderRadius="0.5rem"
+                      />
+                    </td>
+                  );
+                })}
+              <td key={`skeleton-td-${i}`}>
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <SkeletonBlock
+                    tag="div"
+                    width="24px"
+                    height="24px"
+                    borderRadius="50%"
+                    effect="wave"
+                    style={{ margin: "0px 8px" }}
+                  />
+                  <SkeletonBlock
+                    tag="div"
+                    width="24px"
+                    height="24px"
+                    borderRadius="50%"
+                    effect="wave"
+                    style={{ margin: "0px 8px" }}
+                  />
+                </div>
+              </td>
+            </>
+          </tr>
+        );
+      });
   } else {
     return <></>;
   }
@@ -306,7 +394,7 @@ export const TableRow = ({
       onClick={
         allowOpen
           ? () => {
-              f7.views.main.router.navigate(allowOpen, {
+              f7.views.main.router.navigate(`${allowOpen}${row.id}`, {
                 transition: "f7-parallax",
                 props: {
                   id: row.id,
@@ -322,7 +410,15 @@ export const TableRow = ({
 
           // if (fieldKey.toLowerCase() === "id") value = row[fieldKey.toLowerCase()];
           // else value = flatData ? row[fieldKey] : row.attributes[fieldKey];
-          var value = parseRawData(row)[fieldKey];
+          var rawValue = parseRawData(row);
+          let value = null;
+
+          const subKeys = fieldKey.split(".");
+          if (subKeys.length > 1) {
+            value = parseSubKeys(subKeys, rawValue);
+          } else {
+            value = rawValue[fieldKey];
+          }
 
           if (field.type === "tax_id") {
             if (value === "" || Rut(value).clean() === "666666666")
@@ -390,13 +486,13 @@ export const Pagination = ({
   currentPage,
   lastPage,
   onChangePage,
+  pageInfoString,
 }: {
   currentPage: number | null;
   lastPage: number | null;
   onChangePage?: (page: number) => void;
+  pageInfoString?: string;
 }) => {
-  const pageInfoString = `asd`;
-
   if (!currentPage || !lastPage || !onChangePage) return <></>;
 
   return (
@@ -404,10 +500,8 @@ export const Pagination = ({
       <span className="data-table-pagination-label">{pageInfoString}</span>
       <a
         className={
-          "link"
-          // currentPage <= 1 || currentPage === "Cargando..."
-          //   ? "link disabled"
-          //   :
+          // "link"
+          currentPage <= 1 ? "link disabled" : "link"
         }
         onClick={() => {
           onChangePage(currentPage - 1);
@@ -415,12 +509,13 @@ export const Pagination = ({
       >
         <i className="icon icon-prev color-gray"></i>
       </a>
+      <span>
+        {currentPage} de {lastPage}
+      </span>
       <a
         className={
-          "link"
-          // currentPage >= lastPage || currentPage === "Cargando..."
-          //   ? "link disabled"
-          //   : "link"
+          // "link"
+          currentPage >= lastPage ? "link disabled" : "link"
         }
         onClick={() => {
           onChangePage(currentPage + 1);
@@ -428,6 +523,7 @@ export const Pagination = ({
       >
         <i className="icon icon-next color-gray"></i>
       </a>
+      {/* TODO: GO TO PAGE  */}
     </div>
   );
 };
