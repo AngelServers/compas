@@ -17,3 +17,11 @@ export const customRouter = (
     },
   };
 };
+
+export const terminalBox = (text: string, length?: number) => {
+  if (!length) length = text.length;
+
+  console.log("┌" + "─".repeat(length + 2) + "┐");
+  console.log("│ " + text + " │");
+  console.log("└" + "─".repeat(length + 2) + "┘");
+};
