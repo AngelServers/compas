@@ -152,9 +152,9 @@ var customRouter = (defaultRouter, extraRoutes = []) => {
 var terminalBox = (text, length) => {
   if (!length)
     length = text.length;
-  console.log("\u250C" + "\u2500".repeat(length + 2) + "\u2510");
+  console.log("\u250C" + "\u2500".repeat(length + 1) + "\u2510");
   console.log("\u2502 " + text + " \u2502");
-  console.log("\u2514" + "\u2500".repeat(length + 2) + "\u2518");
+  console.log("\u2514" + "\u2500".repeat(length + 1) + "\u2518");
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
