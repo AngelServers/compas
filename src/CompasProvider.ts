@@ -1,16 +1,25 @@
-class Compas {
+type ICompasConfig = {
   url: string;
-  develUrl: string;
+  develUrl?: string;
+  api: (data: any) => Promise<any>;
+  colors?: { blue: string };
+};
+
+class Compas {
+  url: string | (() => string) = "";
+  develUrl: string = "";
+  api: any;
   colors: {
     blue: string;
   } = {
     blue: "#2196f3",
   };
 
-  init(config: { url: string; develUrl?: string; colors?: { blue: string } }) {
+  init(config: ICompasConfig) {
     this.url = config.url;
     this.develUrl = config.url;
+    this.api = config.api;
   }
 }
 
-export const compas = new Compas();
+export const CompasProvider = new Compas();
