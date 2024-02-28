@@ -1,4 +1,4 @@
-export const Rut = (rut) => {
+export const Rut = (rut: any) => {
   return {
     clean: (): string => {
       return typeof rut === "string"
@@ -67,7 +67,7 @@ export const Rut = (rut) => {
       const sumResult = rut
         .reverse()
         .reduce(
-          (accumulator, currentValue, index) =>
+          (accumulator: number, currentValue: number, index: number) =>
             accumulator + currentValue * ((index % 6) + 2),
           initialValue
         );
