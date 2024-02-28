@@ -27,7 +27,7 @@ export interface ISearchFilters {
 }
 
 export interface IField {
-  type:
+  type?:
     | "id"
     | "text"
     | "number"
@@ -41,13 +41,14 @@ export interface IField {
   placeholder?: string;
   width: number | string;
   onChange?: (applyFilter: IApplyFilter, value: any) => void;
-  parser?: (cell: string, row: object) => string;
+  parser?: (cell: string, row: object) => string | JSX.Element;
   values?:
     | Array<{
         name: string;
         key: string;
       }>
     | Array<string>;
+  align?: "center" | "left" | "right";
 }
 
 export interface IApplyFilter {

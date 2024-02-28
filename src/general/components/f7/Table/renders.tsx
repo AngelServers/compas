@@ -49,6 +49,7 @@ export const TableCellValue = ({
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            textAlign: field?.align || "left",
             ...styles,
           }}
         >
@@ -62,15 +63,24 @@ export const TableCellValue = ({
     } else {
       return <td key={cellKey} style={styles}></td>;
     }
+  } else if (React.isValidElement(value)) {
+    return (
+      <td key={cellKey} style={styles}>
+        {value}
+      </td>
+    );
   } else {
     if (!value) value = "";
 
     if (typeof value == "object" || typeof value == "function") {
       console.error(`Table Generator: value is ${typeof value}`, value);
-      return <td key={cellKey} style={styles}></td>;
+      return <td key={cellKey}></td>;
     } else {
       return (
-        <td key={cellKey} style={styles}>
+        <td
+          key={cellKey}
+          style={{ textAlign: field?.align || "left", ...styles }}
+        >
           {value}
         </td>
       );
@@ -123,7 +133,7 @@ export const Filters = ({
       } else {
         return (
           <th
-            style={{ width: field.width }}
+            style={{ width: field.width, textAlign: field?.align || "left" }}
             key={`custom-table-filter-${field.key}`}
             className="input-cell"
           >
@@ -218,7 +228,7 @@ const FilterFieldText = ({
     <th
       key={`custom-table-filter-${field.key}`}
       className="input-cell"
-      style={{ width: field.width }}
+      style={{ width: field.width, textAlign: field?.align || "left" }}
     >
       <span
         className="table-head-label sorteable-header"

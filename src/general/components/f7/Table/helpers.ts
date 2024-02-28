@@ -1,6 +1,6 @@
 import { IApplyFilter, ICustomButton, IField, ISearchFilters } from "./types";
 
-import { compas } from "../../../../../index";
+import { CompasProvider } from "../../../../../index";
 
 export const parseData = (data: any) => {
   if (!data) return null;
@@ -40,7 +40,6 @@ export const parseSubKeys = (subKeys: string[], rawValue: any) => {
   ): string => {
     if (typeof rawValue != "object") return rawValue;
 
-    console.log(subKeys[level], rawValue, level);
     if (
       rawValue[subKeys[level]] !== null &&
       rawValue[subKeys[level]] !== undefined
@@ -51,14 +50,12 @@ export const parseSubKeys = (subKeys: string[], rawValue: any) => {
     } else if (rawValue.attributes) {
       return parseSubKeyLevel(subKeys, rawValue.attributes, level);
     } else if (Array.isArray(rawValue)) {
-      console.log("arr", subKeys[level]);
       return parseSubKeyLevel(
         subKeys,
         rawValue[parseInt(subKeys[level])],
         level + 1
       );
     } else {
-      console.log("RETURN RAW", rawValue);
       return rawValue;
     }
   };
@@ -117,7 +114,7 @@ export const getSortLabelColor = (
 ) => {
   if (getSortIcon(field, searchFilters) !== "")
     return {
-      color: compas.colors.blue,
+      color: CompasProvider.colors.blue,
     };
   return {};
 };
