@@ -1,4 +1,4 @@
-import { compas } from "../../index";
+import { CompasProvider } from "../../index";
 
 interface ImportMeta {
   env?: {
@@ -6,11 +6,14 @@ interface ImportMeta {
   };
 }
 
-export function GetUrl() {
-  let url = compas.url;
+export function GetUrl(): string {
+  let url =
+    typeof CompasProvider.url == "function"
+      ? CompasProvider.url()
+      : CompasProvider.url;
 
   if ((import.meta as ImportMeta).env?.VITE_APP_SERVER == "local") {
-    url = compas.develUrl || url;
+    url = CompasProvider.develUrl || url;
   }
 
   return url;
