@@ -11,7 +11,7 @@ import InputBool from "./InputBool";
 import InputSmartSelect from "./InputSmartSelect";
 
 import { useScreenSize } from "../../../hooks/useScreenSize";
-import { SkeletonInputs } from "./skeleton";
+import { SkeletonInputs } from "./Skeleton";
 import InputDate from "./InputDate";
 
 import { Row } from "../Row";

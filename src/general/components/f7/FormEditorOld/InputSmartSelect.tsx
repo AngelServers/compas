@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FormEditorFieldContext } from ".";
-import { SkeletonInput } from "./skeleton";
+import { SkeletonInput } from "./Skeleton";
 
 import { ListItem } from "framework7-react";
 
