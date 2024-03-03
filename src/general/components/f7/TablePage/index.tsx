@@ -52,7 +52,11 @@ export const TablePage = ({
   const { ApplyFilters, searchFilters } = UseStrapiFilters(get);
 
   return (
-    <Page>
+    <Page
+      onPageBeforeIn={() => {
+        get();
+      }}
+    >
       {allowBack ? (
         <Navbar title={title} backLink="Back" />
       ) : (
