@@ -5,7 +5,12 @@ import { Block, Button, f7 } from "framework7-react";
 import { Row } from "../Row";
 
 import { RenderField } from "./renders";
-import { HandleOnSave, loadInitialReferences, loadValues } from "./helpers";
+import {
+  HandleOnSave,
+  loadInitialReferences,
+  loadValues,
+  parseErrors,
+} from "./helpers";
 
 import "./styles.scss";
 
@@ -27,7 +32,11 @@ export const RecordEditor = ({
   const fieldRefs = useRef<{ [key: string]: any }>(
     loadInitialReferences(content)
   );
+  const saveButtonRef = useRef<any>(null);
 
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  // Start
   useEffect(() => {
     if (editingId) {
       // Cargar valores
@@ -43,18 +52,19 @@ export const RecordEditor = ({
       // Cargar valores por defecto
       const newValues: { [key: string]: any } = {};
       content.forEach((field) => {
-        if (field?.type !== "row") {
-          newValues[field.key] = field.defaultValue || "";
-        } else {
-          field.content.forEach((field) => {
-            newValues[field.key] = field.defaultValue || "";
-          });
-        }
+        // if (field?.type !== "row") {
+        //   newValues[field.key] = field.defaultValue || "";
+        // } else {
+        //   field.content.forEach((field) => {
+        //     newValues[field.key] = field.defaultValue || "";
+        //   });
+        // }
       });
       setValues(newValues);
     }
   }, [editingId, setValues]);
 
+  // Keyboard navigation
   useEffect(() => {
     // Focus first field
     const keys = Object.values(fieldRefs.current);
@@ -74,6 +84,9 @@ export const RecordEditor = ({
         const nextIndex = index + 1;
         if (nextIndex < keys.length) {
           fieldRefs.current[keys[nextIndex]].current.focus();
+        } else {
+          console.log(saveButtonRef.current);
+          saveButtonRef.current.el.focus();
         }
       } else if (e.key === "Escape") {
         const nextIndex = index - 1;
@@ -112,6 +125,7 @@ export const RecordEditor = ({
                         indexIdentifier={index}
                         fieldRefs={fieldRefs}
                         loading={loading}
+                        error={errors[field.key]}
                       />
                     </React.Fragment>
                   ))}
@@ -129,6 +143,7 @@ export const RecordEditor = ({
                   indexIdentifier={index}
                   fieldRefs={fieldRefs}
                   loading={loading}
+                  error={errors[content.key]}
                 />
               </React.Fragment>
             );
@@ -137,12 +152,19 @@ export const RecordEditor = ({
       }
 
       <Button
+        ref={saveButtonRef}
         style={{ marginTop: "1rem" }}
-        fill
+        outline
         onClick={async () => {
-          await HandleOnSave(values, collection, editingId);
-          refreshData && refreshData();
-          f7.views.main.router.back();
+          await HandleOnSave(values, collection, editingId, content)
+            .then(() => {
+              refreshData && refreshData();
+              f7.views.main.router.back();
+            })
+            .catch((err: any) => {
+              parseErrors(err, setErrors);
+              console.log(err);
+            });
         }}
       >
         {editingId ? "Guardar cambios" : "Crear registro"}

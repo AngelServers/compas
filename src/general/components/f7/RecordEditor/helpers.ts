@@ -3,6 +3,8 @@ import React from "react";
 import api from "../../../../general/api";
 import { IField, IRecordLayout } from "./types";
 
+import { strapiErrorTranslator } from "../../../strapiErrorTranslator";
+
 export const loadValues = (editingId: number, collection: string) => {
   // Cargar valores
   return api({
@@ -73,23 +75,46 @@ export const getInputParsedValue: any = (values: any, field: IField) => {
 export const HandleOnSave = (
   values: any,
   collection: string,
-  editingId: number | undefined
+  editingId: number | undefined,
+  content: (IRecordLayout | IField)[]
 ) => {
+  const saveValues = { ...values };
+
+  // TODO: No se debería crear el valor al inicio con "" para que cuando se quiera dejar un campo en "" si se pueda hacer
+  // Convertir valores vacíos a null para que no se guarden como ""
+  Object.keys(saveValues).forEach((key) => {
+    console.log(saveValues[key]);
+    if (saveValues[key] == "") {
+      saveValues[key] = null;
+    }
+  });
+
+  // Convertir campos smartselect a su valor real
+  content.forEach((field) => {
+    if (field?.type === "row") {
+      field.content.forEach((field) => {
+        if (field?.type === "smartselect") {
+          saveValues[field.key] = saveValues[field.key]?.value;
+        }
+      });
+    } else {
+      if (field?.type === "smartselect") {
+        saveValues[field.key] = saveValues[field.key]?.value;
+      }
+    }
+  });
+
   if (editingId) {
     return api({
       method: "PUT",
       url: `api/${collection}/${editingId}`,
       data: {
-        data: values,
+        data: saveValues,
       },
-    })
-      .then((res: any) => {
-        console.log(res);
-        return res;
-      })
-      .catch((err: any) => {
-        console.log(err);
-      });
+    }).then((res: any) => {
+      console.log(res);
+      return res;
+    });
   } else {
     return api({
       method: "POST",
@@ -97,13 +122,26 @@ export const HandleOnSave = (
       data: {
         data: values,
       },
-    })
-      .then((res: any) => {
-        console.log(res);
-        return res;
-      })
-      .catch((err: any) => {
-        console.log(err);
-      });
+    }).then((res: any) => {
+      console.log(res);
+      return res;
+    });
   }
+};
+
+export const parseErrors = (errors: any, setErrors: (errors: any) => void) => {
+  const newErrors: any = {};
+
+  const errorObj = errors?.response?.data?.error;
+  if (errorObj) {
+    const errors = errorObj?.details?.errors;
+    Object.values(errors).forEach((error: any) => {
+      newErrors[error.path[0]] = strapiErrorTranslator(
+        error.message,
+        errorObj.status
+      ).msg;
+    });
+  }
+
+  setErrors(newErrors);
 };

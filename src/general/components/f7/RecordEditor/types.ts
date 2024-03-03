@@ -13,7 +13,7 @@ export type RecordEditorValues =
 type IFieldBase = {
   key: string;
   label: string;
-  type: "text" | "textarea" | "number" | "date";
+  type: "text" | "textarea" | "number" | "date" | "smartselect";
   placeholder?: string;
   parseValue?: (value: any) => any;
   onChange?: (
@@ -32,11 +32,13 @@ type IFieldBase = {
     ) => void;
     isDisabled: (values: RecordEditorValues) => boolean;
   };
+  multiple?: boolean;
+  options?:
+    | string[]
+    | {
+        name: string;
+        options: string[];
+      }[]; // Si el type es "smartselect", options no puede ser opcional
 };
 
-type IFieldSmartSelect = IFieldBase & {
-  type: "smartselect";
-  options: string[]; // Si el type es "smartselect", options no puede ser opcional
-};
-
-export type IField = IFieldBase | IFieldSmartSelect;
+export type IField = IFieldBase;

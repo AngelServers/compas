@@ -1,7 +1,7 @@
 import React from "react";
 import { IField, RecordEditorValues } from "./types";
 
-import { List, ListInput, Button, Icon } from "framework7-react";
+import { List, ListItem, ListInput, Button, Icon } from "framework7-react";
 import { useScreenSize } from "../../../hooks/useScreenSize";
 
 import {
@@ -10,6 +10,8 @@ import {
   getInputParsedValue,
 } from "./helpers";
 
+import SmartSelect from "../SmartSelect";
+
 export const RenderField = ({
   field,
   values,
@@ -17,6 +19,7 @@ export const RenderField = ({
   indexIdentifier,
   fieldRefs,
   loading,
+  error,
 }: {
   field: IField;
   values: RecordEditorValues;
@@ -24,10 +27,30 @@ export const RenderField = ({
   indexIdentifier: number;
   fieldRefs: { [key: string]: any };
   loading: boolean;
+  error?: string;
 }) => {
   const keyIdentifier = `record-editor-field-${field.key}-${indexIdentifier}`;
-
   const { size } = useScreenSize();
+
+  if (field.type === "smartselect") {
+    if (field.options) {
+      return (
+        <SmartSelect
+          title={field.label}
+          options={field.options}
+          listProps={{ style: { margin: 0 } }}
+          inputRef={fieldRefs.current[field.key]}
+          value={getInputParsedValue(values, field)}
+          onChange={(value) => {
+            if (field.onChange) field.onChange(value, values, setValues);
+            else {
+              setValues({ ...values, [field.key]: value });
+            }
+          }}
+        />
+      );
+    }
+  }
 
   return (
     <List
@@ -45,6 +68,8 @@ export const RenderField = ({
           true || size === "small" || size === "xsmall" ? true : false
         }
         value={getInputParsedValue(values, field)}
+        errorMessage={error}
+        errorMessageForce={error ? true : false}
       >
         <input
           slot="input"
