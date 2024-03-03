@@ -62,7 +62,9 @@ export const TablePage = ({
       ) : (
         <Navbar>
           <NavLeft>
-            <Link panelOpen="left" />
+            <Link panelOpen="left">
+              <Icon material="menu" />
+            </Link>
           </NavLeft>
           <NavTitle sliding>{title}</NavTitle>
         </Navbar>
