@@ -17,8 +17,8 @@
     "build": "esbuild ./strapi/main.js --bundle --platform=node --target=node10.4 --outfile=strapi/index.js"
   },
   "dependencies": {
-    "framework7": "^8.3.0",
-    "framework7-react": "^8.3.0",
+    "framework7": "^7.0.7",
+    "framework7-react": "^7.0.7",
     "react": "^18.2.0"
   },
   "devDependencies": {
