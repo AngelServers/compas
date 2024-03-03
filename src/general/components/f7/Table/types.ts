@@ -18,6 +18,8 @@ export interface ITable {
   searchFilters?: any;
 
   renderCustomRowButtons?: ICustomButton[];
+
+  // maxRowsPerPage?: number; // Row number se puede pasar directamente en el reqeust usando pagination[pageSize]
   onChangePage?: (page: number) => void;
 }
 
