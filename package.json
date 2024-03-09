@@ -17,11 +17,13 @@
     "build": "esbuild ./strapi/main.js --bundle --platform=node --target=node10.4 --outfile=strapi/index.js"
   },
   "dependencies": {
+    "@types/react": "^18.2.64",
     "framework7": "^7.0.7",
     "framework7-react": "^7.0.7",
     "react": "^18.2.0"
   },
   "devDependencies": {
     "esbuild": "0.19.11"
-  }
+  },
+  "types": "types-folder/index.d.ts"
 }
