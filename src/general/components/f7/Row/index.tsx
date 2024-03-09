@@ -3,7 +3,6 @@ import React from "react";
 import "./styles.scss";
 
 export const Row = ({
-  key,
   cols,
   small,
   medium,
