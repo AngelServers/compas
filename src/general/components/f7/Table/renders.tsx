@@ -313,14 +313,16 @@ export const Loader = ({
   fields,
   loading,
   data,
+  skeletonRows,
 }: {
   fields: IField[];
   loading: boolean;
   data: any;
+  skeletonRows?: number;
 }) => {
   // Create array of 20
   if (loading || !data) {
-    return Array(20)
+    return Array(skeletonRows || 20)
       .fill(0)
       .map((_, i) => {
         return (
@@ -421,7 +423,7 @@ export const TableRow = ({
           // if (fieldKey.toLowerCase() === "id") value = row[fieldKey.toLowerCase()];
           // else value = flatData ? row[fieldKey] : row.attributes[fieldKey];
           var rawValue = parseRawData(row);
-          let value = null;
+          let value: string | null = null;
 
           const subKeys = fieldKey.split(".");
           if (subKeys.length > 1) {

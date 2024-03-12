@@ -28,6 +28,7 @@ export const Table = ({
   searchFilters,
   renderCustomRowButtons,
   onChangePage,
+  skeletonRows,
 }: ITable) => {
   const tableData = parseData(data);
 
@@ -67,7 +68,12 @@ export const Table = ({
             </thead>
           )}
           <tbody>
-            <Loader fields={fields} loading={loading} data={data} />
+            <Loader
+              fields={fields}
+              loading={loading}
+              data={data}
+              skeletonRows={skeletonRows}
+            />
 
             {!loading &&
               tableData.data?.map(

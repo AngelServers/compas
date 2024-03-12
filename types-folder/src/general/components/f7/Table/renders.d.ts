@@ -13,10 +13,11 @@ export declare const FilterRemover: ({ applyFilter, searchFilters, }: {
     applyFilter: IApplyFilter;
     searchFilters: ISearchFilters;
 }) => JSX.Element;
-export declare const Loader: ({ fields, loading, data, }: {
+export declare const Loader: ({ fields, loading, data, skeletonRows, }: {
     fields: IField[];
     loading: boolean;
     data: any;
+    skeletonRows?: number;
 }) => any;
 export declare const TableRow: ({ row, rowId, fields, allowOpen, allowEdit, allowDelete, renderCustomRowButtons, }: {
     row: any;

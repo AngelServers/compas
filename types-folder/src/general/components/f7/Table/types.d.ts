@@ -20,6 +20,7 @@ export interface ITable {
     searchFilters?: any;
     renderCustomRowButtons?: ICustomButton[];
     onChangePage?: (page: number) => void;
+    skeletonRows?: number;
 }
 export interface ISearchFilters {
     [key: string]: any;
