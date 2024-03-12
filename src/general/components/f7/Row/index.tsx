@@ -10,7 +10,7 @@ export const Row = ({
   children,
 }: {
   cols: number;
-  children: React.ReactNode[];
+  children: React.ReactNode | React.ReactNode[];
   small?: number;
   medium?: number;
   large?: number;
@@ -22,7 +22,7 @@ export const Row = ({
     <div
       className={`grid grid-cols-${cols} small-grid-cols-${smallCols} medium-grid-cols-${mediumCols} large-grid-cols-${largeCols} grid-gap`}
     >
-      {...children}
+      {Array.isArray(children) ? children : [children]}
     </div>
   );
 };
