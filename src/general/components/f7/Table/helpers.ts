@@ -86,7 +86,10 @@ export const parsePagination = (
         data?.data?.meta?.last_page || data?.data?.meta?.pagination?.pageCount,
     };
   } else {
-    console.warn("Table Generator: Pagination not found in data.", data);
+    console.warn(
+      "Table Generator: Pagination not found in data. ['data.meta.current_page' and 'data.meta.last_page needed']",
+      data
+    );
     return dummy;
   }
 };
