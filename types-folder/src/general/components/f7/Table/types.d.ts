@@ -39,6 +39,7 @@ export interface IField {
         key: string;
     }> | Array<string>;
     align?: "center" | "left" | "right";
+    verticalAlign: "top" | "middle" | "bottom";
 }
 export interface IApplyFilter {
     (key: string | Array<{
