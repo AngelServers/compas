@@ -50,6 +50,7 @@ export const TableCellValue = ({
             justifyContent: "center",
             alignItems: "center",
             textAlign: field?.align || "left",
+            verticalAlign: field?.verticalAlign || "middle",
             ...styles,
           }}
         >
