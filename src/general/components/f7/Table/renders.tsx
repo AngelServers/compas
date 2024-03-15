@@ -36,6 +36,7 @@ export const TableCellValue = ({
     overflow: "hidden",
     minWidth: field.width || "100px",
     maxWidth: field.width || "100px",
+    verticalAlign: field?.verticalAlign || "middle",
   };
 
   if (field.type === "image") {
@@ -50,7 +51,6 @@ export const TableCellValue = ({
             justifyContent: "center",
             alignItems: "center",
             textAlign: field?.align || "left",
-            verticalAlign: field?.verticalAlign || "middle",
             ...styles,
           }}
         >
