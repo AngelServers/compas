@@ -2,6 +2,7 @@ type ICompasConfig = {
     url: string;
     develUrl?: string;
     api: (data: any) => Promise<any>;
+    compasF7?: any;
     colors?: {
         blue: string;
     };
@@ -13,6 +14,7 @@ declare class Compas {
     colors: {
         blue: string;
     };
+    compasF7: any;
     init(config: ICompasConfig): void;
 }
 export declare const CompasProvider: Compas;

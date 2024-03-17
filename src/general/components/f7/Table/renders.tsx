@@ -11,7 +11,8 @@ import {
   parseSubKeys,
 } from "./helpers";
 import { Rut } from "../../../rut";
-import { Button, Icon, SkeletonBlock, f7 } from "framework7-react";
+import { Button, Icon, SkeletonBlock } from "framework7-react";
+import { CompasProvider } from "../../../../CompasProvider";
 
 export const TableCellValue = ({
   value,
@@ -407,12 +408,15 @@ export const TableRow = ({
       onClick={
         allowOpen
           ? () => {
-              f7.views.main.router.navigate(`${allowOpen}${row.id}`, {
-                transition: "f7-parallax",
-                props: {
-                  id: row.id,
-                },
-              });
+              CompasProvider.compasF7.views.main.router.navigate(
+                `${allowOpen}${row.id}`,
+                {
+                  transition: "f7-parallax",
+                  props: {
+                    id: row.id,
+                  },
+                }
+              );
             }
           : () => {}
       }
@@ -424,7 +428,7 @@ export const TableRow = ({
           // if (fieldKey.toLowerCase() === "id") value = row[fieldKey.toLowerCase()];
           // else value = flatData ? row[fieldKey] : row.attributes[fieldKey];
           var rawValue = parseRawData(row);
-          let value: string | null = null;
+          let value: string | null | JSX.Element = null;
 
           const subKeys = fieldKey.split(".");
           if (subKeys.length > 1) {
@@ -465,7 +469,7 @@ export const TableRow = ({
             <Button
               onClick={(e) => {
                 e.stopPropagation();
-                f7.views.main.router.navigate(allowEdit, {
+                CompasProvider.compasF7.views.main.router.navigate(allowEdit, {
                   transition: "f7-parallax",
                   props: {
                     id: row.id,
@@ -558,7 +562,7 @@ export const AddRecordRowButton = ({
           className="margin"
           onClick={() => {
             if (allowAdd) {
-              f7.views.main.router.navigate(allowAdd, {
+              CompasProvider.compasF7.views.main.router.navigate(allowAdd, {
                 transition: "f7-parallax",
               });
             }

@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 
 import {
-  f7,
   Page,
   Navbar,
   NavLeft,
@@ -16,6 +15,7 @@ import {
 import { ICustomButton, IField } from "../Table/types";
 import { Table } from "../Table";
 import UseStrapiFilters from "../../../hooks/useStrapiFilters";
+import { CompasProvider } from "../../../../CompasProvider";
 
 type propTypes = {
   title: string;
@@ -99,9 +99,12 @@ export const TablePage = ({
                 fabClose
                 label="Agregar"
                 onClick={() =>
-                  f7.views.main.router.navigate(tableData.allowAdd, {
-                    transition: "f7-parallax",
-                  })
+                  CompasProvider.compasF7.views.main.router.navigate(
+                    tableData.allowAdd,
+                    {
+                      transition: "f7-parallax",
+                    }
+                  )
                 }
               >
                 <Icon md="material:add" />
@@ -129,9 +132,12 @@ export const TablePage = ({
           position="left-bottom"
           slot="fixed"
           onClick={() => {
-            f7.views.main.router.navigate(tableData.allowAdd, {
-              transition: "f7-parallax",
-            });
+            CompasProvider.compasF7.views.main.router.navigate(
+              tableData.allowAdd,
+              {
+                transition: "f7-parallax",
+              }
+            );
           }}
         >
           <Icon md="material:add" />

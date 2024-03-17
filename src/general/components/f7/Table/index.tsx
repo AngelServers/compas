@@ -5,7 +5,7 @@ import "./styles.css";
 import { ITable } from "./types";
 
 import { getColsSize, handleSort, parseData, parsePagination } from "./helpers";
-import { Button, Icon, Progressbar, f7 } from "framework7-react";
+import { Button, Icon, Progressbar } from "framework7-react";
 import {
   AddRecordRowButton,
   FilterRemover,
@@ -107,7 +107,7 @@ export const Table = ({
           >
             <Button
               onClick={() => {
-                f7.views.main.router.navigate(allowAdd, {
+                CompasProvider.compasF7.views.main.router.navigate(allowAdd, {
                   transition: "f7-parallax",
                 });
               }}

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { useState, useEffect } from "react";
-import { f7, ListButton, List, Block } from "framework7-react";
+import { ListButton, List, Block } from "framework7-react";
 
 import { Rut } from "../../../rut";
 import api from "../../../api";
@@ -15,6 +15,8 @@ import { SkeletonInputs } from "./Skeleton";
 import InputDate from "./InputDate";
 
 import { Row } from "../Row";
+
+import { CompasProvider } from "../../../../../index";
 
 const UploadFile = (file: any) => {
   var formData = new FormData();
@@ -146,7 +148,7 @@ export const RenderField = ({
   };
 
   return (
-    <List key={`form-item-${i}`} inset dividers={false} style={{ margin: 0 }}>
+    <List key={`form-item-${i}`} inset style={{ margin: 0 }}>
       {(() => {
         switch (field.type) {
           case "date":
@@ -486,7 +488,6 @@ export const FormEditor = (props: FormEditorProps) => {
     <>
       <Block
         strong
-        outline
         style={{ paddingTop: "0.5rem", paddingBottom: "0.5rem" }}
         inset
       >
@@ -548,7 +549,7 @@ export const FormEditor = (props: FormEditorProps) => {
                     .then(() => {
                       if (props.finishButtonCallback)
                         props.finishButtonCallback();
-                      else f7.views.main.router.back();
+                      else CompasProvider.compasF7.views.main.router.back();
                     })
                     .catch((e) => {
                       console.log(e);
@@ -568,18 +569,19 @@ export const FormEditor = (props: FormEditorProps) => {
                   if (res) {
                     CallCustomInputsSave(res)
                       .then(() => {
-                        var notification = f7.notification.create({
-                          title: "Registro guardado con exito",
-                          titleRightText: "",
-                          subtitle: "El registro se guardo con exito.",
-                          text: "Haz click aqui para cerrar y seguir agregando registros",
-                          closeOnClick: true,
-                          on: {
-                            close: function () {
-                              f7.views.main.router.refreshPage();
+                        var notification =
+                          CompasProvider.compasF7.notification.create({
+                            title: "Registro guardado con exito",
+                            titleRightText: "",
+                            subtitle: "El registro se guardo con exito.",
+                            text: "Haz click aqui para cerrar y seguir agregando registros",
+                            closeOnClick: true,
+                            on: {
+                              close: function () {
+                                CompasProvider.compasF7.views.main.router.refreshPage();
+                              },
                             },
-                          },
-                        });
+                          });
 
                         if (res) {
                           console.log(res);
@@ -606,7 +608,7 @@ export const FormEditor = (props: FormEditorProps) => {
               props.cancelButtonCallback();
             } else {
               if (!savingValues && !loadingValues) {
-                f7.views.main.router.back();
+                CompasProvider.compasF7.views.main.router.back();
               }
             }
           }}

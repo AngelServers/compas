@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { IField, IRecordLayout } from "./types";
 
-import { Block, Button, f7 } from "framework7-react";
+import { Block, Button } from "framework7-react";
 import { Row } from "../Row";
 
 import { RenderField } from "./renders";
@@ -13,6 +13,7 @@ import {
 } from "./helpers";
 
 import "./styles.scss";
+import { CompasProvider } from "../../../../CompasProvider";
 
 export const RecordEditor = ({
   editingId,
@@ -159,7 +160,7 @@ export const RecordEditor = ({
           await HandleOnSave(values, collection, editingId, content)
             .then(() => {
               refreshData && refreshData();
-              f7.views.main.router.back();
+              CompasProvider.compasF7.views.main.router.back();
             })
             .catch((err: any) => {
               parseErrors(err, setErrors);
