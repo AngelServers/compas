@@ -78,6 +78,7 @@ export const RenderField = ({
           id={field.key}
           placeholder={field?.placeholder || ""}
           type={getInputType(field.type)}
+          readOnly={field.readonly || loading}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             let value = parseValueTypeOnInput(e.target.value, field);
 
