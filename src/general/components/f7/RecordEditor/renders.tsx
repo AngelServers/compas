@@ -64,6 +64,7 @@ export const RenderField = ({
         outline
         inputId={field.key}
         input={false}
+        disabled={field.readonly || loading}
         floatingLabel={
           true || size === "small" || size === "xsmall" ? true : false
         }
@@ -79,6 +80,7 @@ export const RenderField = ({
           placeholder={field?.placeholder || ""}
           type={getInputType(field.type)}
           readOnly={field.readonly || loading}
+          disabled={field.readonly || loading}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             let value = parseValueTypeOnInput(e.target.value, field);
 
