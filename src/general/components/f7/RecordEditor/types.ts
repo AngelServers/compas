@@ -21,6 +21,7 @@ type IFieldBase = {
     values: RecordEditorValues,
     setValues: (values: RecordEditorValues) => void
   ) => void;
+  readonly?: boolean;
   defaultValue?: any;
   required?: boolean;
   rightButton?: {

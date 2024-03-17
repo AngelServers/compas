@@ -67,6 +67,7 @@ export const RenderField = ({
         floatingLabel={
           true || size === "small" || size === "xsmall" ? true : false
         }
+        readonly={field.readonly || loading}
         value={getInputParsedValue(values, field)}
         errorMessage={error}
         errorMessageForce={error ? true : false}

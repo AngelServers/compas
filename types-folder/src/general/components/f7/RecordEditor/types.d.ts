@@ -13,6 +13,7 @@ type IFieldBase = {
     placeholder?: string;
     parseValue?: (value: any) => any;
     onChange?: (val: any, values: RecordEditorValues, setValues: (values: RecordEditorValues) => void) => void;
+    readonly?: boolean;
     defaultValue?: any;
     required?: boolean;
     rightButton?: {
