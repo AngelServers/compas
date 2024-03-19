@@ -8,7 +8,7 @@ export interface ICustomButton {
 export interface ITable {
   data: any;
   loading: boolean;
-  allowOpen?: string;
+  allowOpen?: string | ((id: number | string) => void) | null;
   allowAdd?: string;
   allowEdit?: string;
   allowDelete?: ((id: number | string) => void) | null;

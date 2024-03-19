@@ -12,26 +12,19 @@ import {
   FabButtons,
 } from "framework7-react";
 
-import { ICustomButton, IField } from "../Table/types";
+import { ICustomButton, ITable } from "../Table/types";
 import { Table } from "../Table";
 import UseStrapiFilters from "../../../hooks/useStrapiFilters";
 import { CompasProvider } from "../../../../CompasProvider";
 
-type propTypes = {
+type ITablePage = {
   title: string;
   allowBack?: boolean;
   topContent?: JSX.Element;
-  tableData: {
-    context: any;
-    allowAdd: string;
-    allowEdit: string;
-    allowOpen: string;
-    allowDelete: boolean;
-    fields: Array<IField>;
-  };
+  tableData: ITable;
   bottomContent?: JSX.Element;
   actions?: Array<ICustomButton>;
-  options?: {};
+  context: any;
 };
 
 export const TablePage = ({
@@ -41,14 +34,16 @@ export const TablePage = ({
   tableData,
   bottomContent,
   actions,
-}: propTypes) => {
+  context,
+}: ITablePage) => {
   const ctx: {
     get: any;
     data: any;
     loading: boolean;
     del: (id: number | string) => void;
-  } = useContext(tableData.context);
+  } = useContext(context);
   const { get, data, loading, del } = ctx;
+
   const { ApplyFilters, searchFilters } = UseStrapiFilters(get);
 
   return (

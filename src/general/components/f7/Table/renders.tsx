@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 
-import { IApplyFilter, ICustomButton, IField, ISearchFilters } from "./types";
+import {
+  IApplyFilter,
+  ICustomButton,
+  IField,
+  ISearchFilters,
+  ITable,
+} from "./types";
 import { JoinUrl } from "../../../url";
 import {
   getSortIcon,
@@ -396,7 +402,7 @@ export const TableRow = ({
   row: any;
   rowId: number;
   fields: IField[];
-  allowOpen?: string;
+  allowOpen?: string | ((id: number | string) => void) | null;
   allowEdit?: string;
   allowDelete?: ((id: number | string) => void) | null;
   renderCustomRowButtons?: ICustomButton[];
@@ -408,15 +414,17 @@ export const TableRow = ({
       onClick={
         allowOpen
           ? () => {
-              CompasProvider.compasF7.views.main.router.navigate(
-                `${allowOpen}${row.id}`,
-                {
-                  transition: "f7-parallax",
-                  props: {
-                    id: row.id,
-                  },
-                }
-              );
+              if (typeof allowOpen === "function") allowOpen(row.id);
+              else
+                CompasProvider.compasF7.views.main.router.navigate(
+                  `${allowOpen}${row.id}`,
+                  {
+                    transition: "f7-parallax",
+                    props: {
+                      id: row.id,
+                    },
+                  }
+                );
             }
           : () => {}
       }
