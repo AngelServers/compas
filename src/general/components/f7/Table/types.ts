@@ -14,7 +14,7 @@ export interface ITable {
   allowOpen?: string | ((id: number | string) => void) | null;
   allowAdd?: string;
   allowEdit?: string;
-  allowDelete?: ((id: number | string) => void) | null;
+  allowDelete?: ((id: number | string) => void) | null | boolean;
   fields: IField[];
 
   applyFilter?: (key: string | { key: string; val: any }[], val?: any) => void;
