@@ -71,7 +71,7 @@ export const parsePagination = (
 } => {
   const dummy = { currentPage: null, lastPage: null };
 
-  if (!data) return dummy;
+  if (!data || Array.isArray(data)) return dummy;
 
   if (data?.meta) {
     return {
