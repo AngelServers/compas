@@ -14,7 +14,7 @@ export interface ITable {
   allowOpen?: string | ((id: number | string, data: any) => void) | null;
   allowAdd?: string;
   allowEdit?: string;
-  allowDelete?: ((id: number | string) => void) | null | boolean;
+  allowDelete?: ((id: number | string) => void) | null;
   fields: IField[];
 
   applyFilter?: (key: string | { key: string; val: any }[], val?: any) => void;
@@ -25,6 +25,7 @@ export interface ITable {
   // maxRowsPerPage?: number; // Row number se puede pasar directamente en el reqeust usando pagination[pageSize]
   onChangePage?: (page: number) => void;
   skeletonRows?: number;
+  outline?: boolean;
 }
 
 export interface ISearchFilters {

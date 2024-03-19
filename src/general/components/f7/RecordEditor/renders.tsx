@@ -32,6 +32,22 @@ export const RenderField = ({
   const keyIdentifier = `record-editor-field-${field.key}-${indexIdentifier}`;
   const { size } = useScreenSize();
 
+  if (field.type === "custom" && field.customRenderer) {
+    return field.customRenderer({
+      field,
+      ref: fieldRefs.current[field.key],
+      value: getInputParsedValue(values, field),
+      onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        let value = parseValueTypeOnInput(e.target.value, field);
+
+        if (field.onChange) field.onChange(value, values, setValues);
+        else {
+          setValues({ ...values, [field.key]: value });
+        }
+      },
+    });
+  }
+
   if (field.type === "smartselect") {
     if (field.options) {
       return (
@@ -52,6 +68,61 @@ export const RenderField = ({
     }
   }
 
+  if (field.type === "textarea") {
+    return (
+      <List
+        inset
+        style={{ margin: 0 }}
+        key={keyIdentifier}
+        className="record-editor-list-container"
+      >
+        <ListInput
+          type="textarea"
+          ref={fieldRefs.current[field.key]}
+          label={field.label}
+          outline
+          inputId={field.key}
+          // input={false}
+          // disabled={field.readonly || loading}
+          floatingLabel={
+            true || size === "small" || size === "xsmall" ? true : false
+          }
+          readonly={field.readonly || loading}
+          value={getInputParsedValue(values, field)}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+            let value = parseValueTypeOnInput(e.target.value, field);
+
+            if (field.onChange) field.onChange(value, values, setValues);
+            else {
+              setValues({ ...values, [field.key]: value });
+            }
+          }}
+          errorMessage={error}
+          errorMessageForce={error ? true : false}
+        >
+          {/* <textarea
+            className={field.readonly ? "disabled" : ""}
+            slot="input"
+            ref={fieldRefs.current[field.key]}
+            id={field.key}
+            placeholder={field?.placeholder || ""}
+            readOnly={field.readonly || loading}
+            disabled={field.readonly || loading}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+              let value = parseValueTypeOnInput(e.target.value, field);
+
+              if (field.onChange) field.onChange(value, values, setValues);
+              else {
+                setValues({ ...values, [field.key]: value });
+              }
+            }}
+            value={getInputParsedValue(values, field)}
+          /> */}
+        </ListInput>
+      </List>
+    );
+  }
+
   return (
     <List
       inset
@@ -64,7 +135,7 @@ export const RenderField = ({
         outline
         inputId={field.key}
         input={false}
-        disabled={field.readonly || loading}
+        // disabled={field.readonly || loading}
         floatingLabel={
           true || size === "small" || size === "xsmall" ? true : false
         }
@@ -74,6 +145,7 @@ export const RenderField = ({
         errorMessageForce={error ? true : false}
       >
         <input
+          className={field.readonly ? "disabled" : ""}
           slot="input"
           ref={fieldRefs.current[field.key]}
           id={field.key}
@@ -108,7 +180,11 @@ export const RenderField = ({
               // marginRight:
               //   "calc(var(--f7-list-item-padding-horizontal) + var(--f7-safe-area-right) - var(--menu-list-offset))",
             }}
-            disabled={field.rightButton?.isDisabled(values)}
+            disabled={
+              field.rightButton?.isDisabled
+                ? field.rightButton?.isDisabled(values)
+                : false
+            }
           >
             <Icon material={field.rightButton.icon} />
           </Button>

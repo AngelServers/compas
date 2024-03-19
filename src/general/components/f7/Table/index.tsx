@@ -29,6 +29,7 @@ export const Table = ({
   renderCustomRowButtons,
   onChangePage,
   skeletonRows,
+  outline,
 }: ITable) => {
   const tableData = parseData(data);
 
@@ -44,8 +45,8 @@ export const Table = ({
   return (
     <div
       className={`card data-table compas-table ${
-        loading && false && "skeleton-text"
-      }`}
+        outline ? "compas-table-outline" : ""
+      } ${loading ? "skeleton-text" : ""}`}
     >
       {/* Loading Bar */}
       <Progressbar infinite={loading} color="gray" />
