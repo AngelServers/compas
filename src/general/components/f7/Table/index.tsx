@@ -4,15 +4,14 @@ import "./styles.css";
 
 import { ITable } from "./types";
 
-import { getColsSize, handleSort, parseData, parsePagination } from "./helpers";
-import { Button, Icon, Progressbar } from "framework7-react";
+import { getColsSize, parseData, parsePagination } from "./helpers";
+import { Progressbar } from "framework7-react";
 import {
   AddRecordRowButton,
   FilterRemover,
   Filters,
   Loader,
   Pagination,
-  TableCellValue,
   TableRow,
 } from "./renders";
 

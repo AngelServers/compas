@@ -1,7 +1,7 @@
 import React from "react";
 import { IField, RecordEditorValues } from "./types";
 
-import { List, ListItem, ListInput, Button, Icon } from "framework7-react";
+import { List, ListInput, Button, Icon } from "framework7-react";
 import { useScreenSize } from "../../../hooks/useScreenSize";
 
 import {
