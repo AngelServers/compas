@@ -5,16 +5,19 @@ export interface ICustomButton {
   onClick: (...args: any[]) => void;
 }
 
-export interface ITable {
+export interface TableData {
   data: any;
-  loading: boolean;
+}
+export interface ITable {
+  data: TableData;
+  loading?: boolean;
   allowOpen?: string | ((id: number | string) => void) | null;
   allowAdd?: string;
   allowEdit?: string;
   allowDelete?: ((id: number | string) => void) | null;
   fields: IField[];
 
-  applyFilter: (key: string | { key: string; val: any }[], val?: any) => void;
+  applyFilter?: (key: string | { key: string; val: any }[], val?: any) => void;
   searchFilters?: any;
 
   renderCustomRowButtons?: ICustomButton[];

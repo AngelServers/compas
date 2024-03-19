@@ -324,7 +324,7 @@ export const Loader = ({
   skeletonRows,
 }: {
   fields: IField[];
-  loading: boolean;
+  loading?: boolean;
   data: any;
   skeletonRows?: number;
 }) => {

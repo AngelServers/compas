@@ -5,15 +5,18 @@ export interface ICustomButton {
     color: string;
     onClick: (...args: any[]) => void;
 }
-export interface ITable {
+export interface TableData {
     data: any;
-    loading: boolean;
+}
+export interface ITable {
+    data: TableData;
+    loading?: boolean;
     allowOpen?: string | ((id: number | string) => void) | null;
     allowAdd?: string;
     allowEdit?: string;
     allowDelete?: ((id: number | string) => void) | null;
     fields: IField[];
-    applyFilter: (key: string | {
+    applyFilter?: (key: string | {
         key: string;
         val: any;
     }[], val?: any) => void;

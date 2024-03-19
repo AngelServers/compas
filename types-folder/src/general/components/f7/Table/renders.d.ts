@@ -15,7 +15,7 @@ export declare const FilterRemover: ({ applyFilter, searchFilters, }: {
 }) => JSX.Element;
 export declare const Loader: ({ fields, loading, data, skeletonRows, }: {
     fields: IField[];
-    loading: boolean;
+    loading?: boolean;
     data: any;
     skeletonRows?: number;
 }) => any;

@@ -57,11 +57,11 @@ export const Table = ({
               <tr>
                 <Filters
                   fields={fields}
-                  applyFilter={applyFilter}
+                  applyFilter={applyFilter ? applyFilter : () => {}}
                   searchFilters={searchFilters}
                 />
                 <FilterRemover
-                  applyFilter={applyFilter}
+                  applyFilter={applyFilter ? applyFilter : () => {}}
                   searchFilters={searchFilters}
                 />
               </tr>
