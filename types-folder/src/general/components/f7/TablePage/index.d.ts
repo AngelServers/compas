@@ -4,7 +4,7 @@ type ITablePage = {
     title: string;
     allowBack?: boolean;
     topContent?: JSX.Element;
-    tableData: ITable;
+    tableData: Partial<ITable>;
     bottomContent?: JSX.Element;
     actions?: Array<ICustomButton>;
     context: any;
