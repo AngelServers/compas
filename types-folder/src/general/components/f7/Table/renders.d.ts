@@ -23,7 +23,7 @@ export declare const TableRow: ({ row, rowId, fields, allowOpen, allowEdit, allo
     row: any;
     rowId: number;
     fields: IField[];
-    allowOpen?: string;
+    allowOpen?: string | ((id: number | string) => void);
     allowEdit?: string;
     allowDelete?: (id: number | string) => void;
     renderCustomRowButtons?: ICustomButton[];

@@ -1,20 +1,13 @@
 /// <reference types="react" />
-import { ICustomButton, IField } from "../Table/types";
-type propTypes = {
+import { ICustomButton, ITable } from "../Table/types";
+type ITablePage = {
     title: string;
     allowBack?: boolean;
     topContent?: JSX.Element;
-    tableData: {
-        context: any;
-        allowAdd: string;
-        allowEdit: string;
-        allowOpen: string;
-        allowDelete: boolean;
-        fields: Array<IField>;
-    };
+    tableData: ITable;
     bottomContent?: JSX.Element;
     actions?: Array<ICustomButton>;
-    options?: {};
+    context: any;
 };
-export declare const TablePage: ({ title, allowBack, topContent, tableData, bottomContent, actions, }: propTypes) => JSX.Element;
+export declare const TablePage: ({ title, allowBack, topContent, tableData, bottomContent, actions, context, }: ITablePage) => JSX.Element;
 export {};
