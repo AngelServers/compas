@@ -77,7 +77,7 @@ export const TablePage = ({
         onChangePage={(page) => {
           ApplyFilters("page", page);
         }}
-        fields={tableData.fields}
+        fields={tableData?.fields || []}
         applyFilter={ApplyFilters}
         searchFilters={searchFilters}
       />
