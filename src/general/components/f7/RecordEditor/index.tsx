@@ -81,20 +81,27 @@ export const RecordEditor = ({
       const keys = Object.keys(fieldRefs.current);
       const index = keys.findIndex((key) => key === document.activeElement?.id);
 
-      if (e.key === "Enter") {
-        const nextIndex = index + 1;
-        if (nextIndex < keys.length) {
-          fieldRefs.current[keys[nextIndex]].current.focus();
-        } else {
-          console.log(saveButtonRef.current);
-          saveButtonRef.current.el.focus();
-        }
-      } else if (e.key === "Escape") {
-        const nextIndex = index - 1;
-        if (nextIndex >= 0) {
-          fieldRefs.current[keys[nextIndex]].current.focus();
-        }
-      }
+      // TODO: Se debe mejorar la navegación por teclado
+      // Se debe detectar si el campo es el último y si es así, enfocar el botón de guardar
+      // Se debe detectar si el campo siguiente o anterior esta desactivado y saltar 
+      // al siguiente o anterior activo
+      // Se debe detectar si el campo es un select y abrir el select al presionar enter
+      // Se debe detectar si el campo es un textarea y permitir el salto de línea si se apreta 2 veces enter
+
+      // if (e.key === "Enter") {
+      //   const nextIndex = index + 1;
+      //   if (nextIndex < keys.length) {
+      //     fieldRefs.current[keys[nextIndex]].current.focus();
+      //   } else {
+      //     console.log(saveButtonRef.current);
+      //     saveButtonRef.current.el.focus();
+      //   }
+      // } else if (e.key === "Escape") {
+      //   const nextIndex = index - 1;
+      //   if (nextIndex >= 0) {
+      //     fieldRefs.current[keys[nextIndex]].current.focus();
+      //   }
+      // }
     };
 
     window.addEventListener("keyup", handleKeyPress, false);
