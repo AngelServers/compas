@@ -402,7 +402,7 @@ export const TableRow = ({
   row: any;
   rowId: number;
   fields: IField[];
-  allowOpen?: string | ((id: number | string) => void) | null;
+  allowOpen?: string | ((id: number | string, data: any) => void) | null;
   allowEdit?: string;
   allowDelete?: ((id: number | string) => void) | null;
   renderCustomRowButtons?: ICustomButton[];
@@ -414,7 +414,7 @@ export const TableRow = ({
       onClick={
         allowOpen
           ? () => {
-              if (typeof allowOpen === "function") allowOpen(row.id);
+              if (typeof allowOpen === "function") allowOpen(row.id, row);
               else
                 CompasProvider.compasF7.views.main.router.navigate(
                   `${allowOpen}${row.id}`,

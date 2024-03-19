@@ -11,7 +11,7 @@ export interface TableData {
 export interface ITable {
   data: TableData;
   loading?: boolean;
-  allowOpen?: string | ((id: number | string) => void) | null;
+  allowOpen?: string | ((id: number | string, data: any) => void) | null;
   allowAdd?: string;
   allowEdit?: string;
   allowDelete?: ((id: number | string) => void) | null | boolean;
