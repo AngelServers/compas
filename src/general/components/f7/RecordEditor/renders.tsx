@@ -28,24 +28,29 @@ export const RenderField = ({
   fieldRefs: { [key: string]: any };
   loading: boolean;
   error?: string;
-}) => {
+}): JSX.Element => {
   const keyIdentifier = `record-editor-field-${field.key}-${indexIdentifier}`;
   const { size } = useScreenSize();
 
   if (field.type === "custom" && field.customRenderer) {
-    return field.customRenderer({
-      field,
-      ref: fieldRefs.current[field.key],
-      value: getInputParsedValue(values, field),
-      onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        let value = parseValueTypeOnInput(e.target.value, field);
+    return (
+      <>
+        {field.customRenderer({
+          field,
+          ref: fieldRefs.current[field.key],
+          value: getInputParsedValue(values, field),
+          onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+            let value = parseValueTypeOnInput(e.target.value, field);
 
-        if (field.onChange) field.onChange(value, values, setValues);
-        else {
-          setValues({ ...values, [field.key]: value });
-        }
-      },
-    });
+            if (field.onChange) field.onChange(value, values, setValues);
+            else {
+              setValues({ ...values, [field.key]: value });
+            }
+          },
+          setValues,
+        })}
+      </>
+    );
   }
 
   if (field.type === "smartselect") {

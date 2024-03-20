@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { IField, IRecordLayout } from "./types";
+import { ICustomSaveParser, IField, IRecordLayout } from "./types";
 
 import { Block, Button } from "framework7-react";
 import { Row } from "../Row";
@@ -20,11 +20,13 @@ export const RecordEditor = ({
   content,
   collection,
   refreshData,
+  customSaveParser,
 }: {
   editingId?: number;
   content: (IRecordLayout | IField)[];
   collection: string;
   refreshData?: () => void;
+  customSaveParser: ICustomSaveParser;
 }) => {
   const [values, setValues] = useState<{ [key: string]: any }>();
   const loading = !values && !!editingId;
@@ -83,7 +85,7 @@ export const RecordEditor = ({
 
       // TODO: Se debe mejorar la navegación por teclado
       // Se debe detectar si el campo es el último y si es así, enfocar el botón de guardar
-      // Se debe detectar si el campo siguiente o anterior esta desactivado y saltar 
+      // Se debe detectar si el campo siguiente o anterior esta desactivado y saltar
       // al siguiente o anterior activo
       // Se debe detectar si el campo es un select y abrir el select al presionar enter
       // Se debe detectar si el campo es un textarea y permitir el salto de línea si se apreta 2 veces enter
@@ -151,7 +153,7 @@ export const RecordEditor = ({
                   indexIdentifier={index}
                   fieldRefs={fieldRefs}
                   loading={loading}
-                  error={errors[content.key]}
+                  // error={errors[content.key]}
                 />
               </React.Fragment>
             );
@@ -164,7 +166,13 @@ export const RecordEditor = ({
         style={{ marginTop: "1rem" }}
         outline
         onClick={async () => {
-          await HandleOnSave(values, collection, editingId, content)
+          await HandleOnSave(
+            values,
+            collection,
+            editingId,
+            content,
+            customSaveParser
+          )
             .then(() => {
               refreshData && refreshData();
               CompasProvider.compasF7.views.main.router.back();
