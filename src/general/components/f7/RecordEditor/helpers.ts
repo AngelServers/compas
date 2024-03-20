@@ -113,12 +113,16 @@ export const HandleOnSave = (
     });
   }
 
+  const rootUrl =
+    CompasProvider.apiCustomRootPath === null ||
+    CompasProvider.apiCustomRootPath === undefined
+      ? "api"
+      : CompasProvider.apiCustomRootPath;
+
   if (editingId) {
     return api({
       method: "PUT",
-      url: `${
-        CompasProvider.apiCustomRootPath || "api"
-      }/${collection}/${editingId}`,
+      url: `${rootUrl}/${collection}/${editingId}`,
       data: {
         data: saveValues,
       },
@@ -129,7 +133,7 @@ export const HandleOnSave = (
   } else {
     return api({
       method: "POST",
-      url: `${CompasProvider.apiCustomRootPath || "api"}/${collection}`,
+      url: `${rootUrl}/${collection}`,
       data: {
         data: saveValues,
       },
