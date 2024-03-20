@@ -107,7 +107,9 @@ export const HandleOnSave = (
   if (editingId) {
     return api({
       method: "PUT",
-      url: `api/${collection}/${editingId}`,
+      url: `${
+        CompasProvider.apiCustomRootPath || "api"
+      }/${collection}/${editingId}`,
       data: {
         data: saveValues,
       },
@@ -118,7 +120,7 @@ export const HandleOnSave = (
   } else {
     return api({
       method: "POST",
-      url: `api/${collection}`,
+      url: `${CompasProvider.apiCustomRootPath || "api"}/${collection}`,
       data: {
         data: values,
       },
