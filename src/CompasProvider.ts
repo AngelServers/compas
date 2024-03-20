@@ -22,6 +22,7 @@ class Compas {
   init(config: ICompasConfig) {
     this.url = config.url;
     this.develUrl = config.url;
+    this.apiCustomRootPath = config.apiCustomRootPath;
     this.api = config.api;
     this.compasF7 = config.compasF7;
   }
