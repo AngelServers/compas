@@ -153,7 +153,7 @@ export const RecordEditor = ({
                   indexIdentifier={index}
                   fieldRefs={fieldRefs}
                   loading={loading}
-                  // error={errors[content.key]}
+                  error={errors[content.key]}
                 />
               </React.Fragment>
             );

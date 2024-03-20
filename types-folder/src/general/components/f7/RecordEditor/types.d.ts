@@ -17,6 +17,7 @@ export type IField = {
         value: any;
         onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
         setValues: (values: RecordEditorValues) => void;
+        errorMessage?: string;
     }) => void;
     placeholder?: string;
     parseValue?: (value: any) => any;

@@ -48,6 +48,7 @@ export const RenderField = ({
             }
           },
           setValues,
+          errorMessage: error,
         })}
       </>
     );
