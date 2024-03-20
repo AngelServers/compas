@@ -58,8 +58,8 @@ export interface IField {
   onChange?: (applyFilter: IApplyFilter, value: any) => void;
   parser?: (
     cell: string | JSX.Element | null,
-    row: object
-  ) => string | JSX.Element;
+    row: any
+  ) => Promise<JSX.Element | string | null> | JSX.Element | string | null;
   values?:
     | Array<{
         name: string;

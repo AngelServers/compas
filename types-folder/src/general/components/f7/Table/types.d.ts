@@ -44,7 +44,7 @@ export interface IField {
     width: number | string;
     minWidth?: number | string;
     onChange?: (applyFilter: IApplyFilter, value: any) => void;
-    parser?: (cell: string | JSX.Element | null, row: object) => string | JSX.Element;
+    parser?: (cell: string | JSX.Element | null, row: any) => Promise<JSX.Element | string | null> | JSX.Element | string | null;
     values?: Array<{
         name: string;
         key: string;
