@@ -1,9 +1,10 @@
 /// <reference types="react" />
-import { IField, IRecordLayout } from "./types";
+import { ICustomSaveParser, IField, IRecordLayout } from "./types";
 import "./styles.scss";
-export declare const RecordEditor: ({ editingId, content, collection, refreshData, }: {
+export declare const RecordEditor: ({ editingId, content, collection, refreshData, customSaveParser, }: {
     editingId?: number;
     content: (IRecordLayout | IField)[];
     collection: string;
     refreshData?: () => void;
+    customSaveParser: ICustomSaveParser;
 }) => JSX.Element;

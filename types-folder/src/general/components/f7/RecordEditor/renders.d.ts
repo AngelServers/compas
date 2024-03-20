@@ -10,4 +10,4 @@ export declare const RenderField: ({ field, values, setValues, indexIdentifier, 
     };
     loading: boolean;
     error?: string;
-}) => void | JSX.Element;
+}) => JSX.Element;

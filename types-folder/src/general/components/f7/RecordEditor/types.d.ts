@@ -7,7 +7,7 @@ export type IRecordLayout = {
 export type RecordEditorValues = {
     [key: string]: any;
 } | undefined;
-type IFieldBase = {
+export type IField = {
     key: string;
     label: string;
     type: "text" | "textarea" | "number" | "date" | "smartselect" | "custom";
@@ -16,6 +16,7 @@ type IFieldBase = {
         ref: any;
         value: any;
         onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+        setValues: (values: RecordEditorValues) => void;
     }) => void;
     placeholder?: string;
     parseValue?: (value: any) => any;
@@ -34,5 +35,7 @@ type IFieldBase = {
         options: string[];
     }[];
 };
-export type IField = IFieldBase;
-export {};
+export type ICustomSaveParser = (values: any, content: (IRecordLayout | IField)[], { editingId, collection, }: {
+    editingId: number | undefined;
+    collection: string;
+}) => any;

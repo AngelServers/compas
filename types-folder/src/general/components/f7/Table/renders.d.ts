@@ -1,4 +1,4 @@
-/// <reference types="react" />
+import React from "react";
 import { IApplyFilter, ICustomButton, IField, ISearchFilters } from "./types";
 export declare const TableCellValue: ({ value, field, }: {
     value: any;
@@ -34,7 +34,12 @@ export declare const Pagination: ({ currentPage, lastPage, onChangePage, pageInf
     onChangePage?: (page: number) => void;
     pageInfoString?: string;
 }) => JSX.Element;
-export declare const AddRecordRowButton: ({ allowAdd, colSpan, }: {
-    allowAdd?: string;
+export declare const AddRecordRowButton: ({ allowAdd, addButton, colSpan, }: {
+    allowAdd?: string | (() => void);
+    addButton?: {
+        content: string;
+        color?: string;
+        style?: React.CSSProperties;
+    };
     colSpan: number;
 }) => JSX.Element;
