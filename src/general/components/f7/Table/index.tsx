@@ -105,8 +105,10 @@ export const Table = ({
           </tbody>
         </table>
       </div>
-      <div className="data-table-footer">
-        {/* {allowAdd && (
+      {!currentPage ||
+        (!lastPage && (
+          <div className="data-table-footer">
+            {/* {allowAdd && (
           <div
             style={{
               marginLeft: "50px",
@@ -123,12 +125,13 @@ export const Table = ({
             </Button>
           </div>
         )} */}
-        <Pagination
-          currentPage={currentPage}
-          lastPage={lastPage}
-          onChangePage={onChangePage}
-        />
-      </div>
+            <Pagination
+              currentPage={currentPage}
+              lastPage={lastPage}
+              onChangePage={onChangePage}
+            />
+          </div>
+        ))}
     </div>
   );
 };
