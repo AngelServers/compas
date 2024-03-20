@@ -86,8 +86,8 @@ export const TablePage = ({
 
       {actions && (
         <Fab position="left-bottom" slot="fixed">
-          <Icon md="material:more_horiz" />
-          <Icon md="material:close" />
+          <Icon material="more_horiz" />
+          <Icon material="close" />
           <FabButtons position="top">
             {tableData && tableData.allowAdd && (
               <FabButton
@@ -102,7 +102,7 @@ export const TablePage = ({
                   )
                 }
               >
-                <Icon md="material:add" />
+                <Icon material="add" />
               </FabButton>
             )}
             {actions &&
@@ -135,7 +135,7 @@ export const TablePage = ({
             );
           }}
         >
-          <Icon md="material:add" />
+          <Icon material="add" />
         </Fab>
       )}
     </Page>

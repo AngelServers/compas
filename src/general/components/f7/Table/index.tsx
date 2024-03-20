@@ -19,10 +19,12 @@ export const Table = ({
   data,
   loading,
   allowOpen,
+  addButton,
   allowAdd,
   allowEdit,
   allowDelete,
   fields,
+  style,
   applyFilter,
   searchFilters,
   renderCustomRowButtons,
@@ -45,7 +47,8 @@ export const Table = ({
     <div
       className={`card data-table compas-table ${
         outline ? "compas-table-outline" : ""
-      } ${loading ? "skeleton-text" : ""}`}
+      }`}
+      style={style}
     >
       {/* Loading Bar */}
       <Progressbar infinite={loading} color="gray" />
@@ -93,7 +96,11 @@ export const Table = ({
                 }
               )}
             {allowAdd && (
-              <AddRecordRowButton allowAdd={allowAdd} colSpan={cols} />
+              <AddRecordRowButton
+                allowAdd={allowAdd}
+                addButton={addButton}
+                colSpan={cols}
+              />
             )}
           </tbody>
         </table>
@@ -112,7 +119,7 @@ export const Table = ({
                 });
               }}
             >
-              <Icon md="material:add" />
+              <Icon material="add" />
             </Button>
           </div>
         )} */}

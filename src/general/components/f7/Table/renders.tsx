@@ -41,7 +41,8 @@ export const TableCellValue = ({
 
   const styles = {
     overflow: "hidden",
-    minWidth: field.width || "100px",
+    width: field.width || "100px",
+    minWidth: field.minWidth || "100px",
     maxWidth: field.width || "100px",
     verticalAlign: field?.verticalAlign || "middle",
   };
@@ -410,6 +411,7 @@ export const TableRow = ({
   return (
     <tr
       key={`table-row-${rowId}`}
+      id={`table-element-${rowId}`}
       style={{ cursor: allowOpen ? "pointer" : "default" }}
       onClick={
         allowOpen
@@ -469,7 +471,7 @@ export const TableRow = ({
                   action.onClick(row);
                 }}
               >
-                <Icon md={"material:" + action.icon} />
+                <Icon material={action.icon} />
               </Button>
             );
           })}
@@ -485,7 +487,7 @@ export const TableRow = ({
                 });
               }}
             >
-              <Icon md="material:edit" />
+              <Icon material="edit" />
             </Button>
           )}
           {allowDelete && (
@@ -498,7 +500,7 @@ export const TableRow = ({
                 }
               }}
             >
-              <Icon md="material:delete" />
+              <Icon material="delete" />
             </Button>
           )}
         </div>
@@ -555,9 +557,15 @@ export const Pagination = ({
 
 export const AddRecordRowButton = ({
   allowAdd,
+  addButton,
   colSpan,
 }: {
-  allowAdd?: string;
+  allowAdd?: string | (() => void);
+  addButton?: {
+    content: string;
+    color?: string;
+    style?: React.CSSProperties;
+  };
   colSpan: number;
 }) => {
   if (!allowAdd) return <></>;
@@ -567,17 +575,28 @@ export const AddRecordRowButton = ({
       <td colSpan={colSpan}>
         <Button
           outline
+          color={addButton?.color || "blue"}
+          style={addButton?.style}
           className="margin"
           onClick={() => {
             if (allowAdd) {
-              CompasProvider.compasF7.views.main.router.navigate(allowAdd, {
-                transition: "f7-parallax",
-              });
+              if (typeof allowAdd === "function") allowAdd();
+              else {
+                CompasProvider.compasF7.views.main.router.navigate(allowAdd, {
+                  transition: "f7-parallax",
+                });
+              }
             }
           }}
         >
-          <Icon md="material:add" />
-          Agregar nuevo registro
+          {addButton?.content ? (
+            addButton?.content
+          ) : (
+            <>
+              <Icon material="add" />
+              Agregar nuevo registro
+            </>
+          )}
         </Button>
       </td>
     </tr>

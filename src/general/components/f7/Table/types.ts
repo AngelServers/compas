@@ -12,10 +12,17 @@ export interface ITable {
   data: TableData;
   loading?: boolean;
   allowOpen?: string | ((id: number | string, data: any) => void) | null;
-  allowAdd?: string;
+  addButton?: {
+    content: any;
+    color?: string;
+    style?: React.CSSProperties;
+  };
+  allowAdd?: string | (() => void);
   allowEdit?: string;
   allowDelete?: ((id: number | string) => void) | null;
   fields: IField[];
+
+  style?: React.CSSProperties;
 
   applyFilter?: (key: string | { key: string; val: any }[], val?: any) => void;
   searchFilters?: any;
@@ -47,6 +54,7 @@ export interface IField {
   name: string;
   placeholder?: string;
   width: number | string;
+  minWidth?: number | string;
   onChange?: (applyFilter: IApplyFilter, value: any) => void;
   parser?: (
     cell: string | JSX.Element | null,
