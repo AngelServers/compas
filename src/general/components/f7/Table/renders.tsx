@@ -17,16 +17,51 @@ import {
   parseSubKeys,
 } from "./helpers";
 import { Rut } from "../../../rut";
-import { Button, Icon, SkeletonBlock } from "framework7-react";
+import {
+  Button,
+  Icon,
+  Preloader,
+  Progressbar,
+  SkeletonBlock,
+} from "framework7-react";
 import { CompasProvider } from "../../../../CompasProvider";
 
-export const TableCellValue = ({
-  value,
-  field,
-}: {
-  value: any;
-  field: IField;
-}) => {
+export const TableCellValue = ({ field, row }: { field: IField; row: any }) => {
+  const [value, setValue] = React.useState<any>(null);
+  const [loading, setLoading] = React.useState<any>(null);
+  useEffect(() => {
+    setLoading(true);
+    const loadValue = async () => {
+      const fieldKey = field.key ? field.key : field.name;
+
+      // if (fieldKey.toLowerCase() === "id") value = row[fieldKey.toLowerCase()];
+      // else value = flatData ? row[fieldKey] : row.attributes[fieldKey];
+      var rawValue = parseRawData(row);
+      let value: string | null | JSX.Element = null;
+
+      const subKeys = fieldKey.split(".");
+      if (subKeys.length > 1) {
+        value = parseSubKeys(subKeys, rawValue);
+      } else {
+        value = rawValue[fieldKey];
+      }
+
+      if (field.type === "tax_id") {
+        if (value === "" || Rut(value).clean() === "666666666")
+          value = "No nominativo";
+        else if (Rut(value).validate()) value = Rut(value).format();
+        else value = "Rut invalido";
+      }
+
+      // Apply parser defined on field data
+      if (field.parser) setValue(await field.parser(value, row));
+      else setValue(value);
+
+      setLoading(false);
+    };
+    loadValue();
+  }, []);
+
   const cellKey = `table-row-cell-${field.name}`;
 
   const dummyImg = (
@@ -47,8 +82,15 @@ export const TableCellValue = ({
     verticalAlign: field?.verticalAlign || "middle",
   };
 
+  if (loading)
+    return (
+      <td key={cellKey} style={styles}>
+        <Progressbar infinite color="gray" />
+      </td>
+    );
+
   if (field.type === "image") {
-    if (value?.data?.[0]) {
+    if (typeof value === "object" && value?.data?.[0]) {
       const attributes = value.data[0].attributes;
       const url = JoinUrl(attributes.url);
       return (
@@ -79,8 +121,6 @@ export const TableCellValue = ({
       </td>
     );
   } else {
-    if (!value) value = "";
-
     if (typeof value == "object" || typeof value == "function") {
       console.error(`Table Generator: value is ${typeof value}`, value);
       return <td key={cellKey}></td>;
@@ -90,7 +130,7 @@ export const TableCellValue = ({
           key={cellKey}
           style={{ textAlign: field?.align || "left", ...styles }}
         >
-          {value}
+          {value || ""}
         </td>
       );
     }
@@ -433,31 +473,7 @@ export const TableRow = ({
     >
       {fields &&
         fields.map((field, i) => {
-          const fieldKey = field.key ? field.key : field.name;
-
-          // if (fieldKey.toLowerCase() === "id") value = row[fieldKey.toLowerCase()];
-          // else value = flatData ? row[fieldKey] : row.attributes[fieldKey];
-          var rawValue = parseRawData(row);
-          let value: string | null | JSX.Element = null;
-
-          const subKeys = fieldKey.split(".");
-          if (subKeys.length > 1) {
-            value = parseSubKeys(subKeys, rawValue);
-          } else {
-            value = rawValue[fieldKey];
-          }
-
-          if (field.type === "tax_id") {
-            if (value === "" || Rut(value).clean() === "666666666")
-              value = "No nominativo";
-            else if (Rut(value).validate()) value = Rut(value).format();
-            else value = "Rut invalido";
-          }
-
-          // Apply parser defined on field data
-          if (field.parser) value = field.parser(value, row);
-
-          return <TableCellValue key={i} value={value} field={field} />;
+          return <TableCellValue key={i} field={field} row={row} />;
         })}
       <td>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
